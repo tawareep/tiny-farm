@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260814-05-a1b2e7b","C":{"Abril Fatface":"YACgEZbkUVE,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Bebas Neue":"YACgESME5ew,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Canva Sans":"YAFLd8sKbwc,2","Caveat":"YALBs2ploWQ,0","Comic Sans MS":"YAHO2VMiyZo,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAEul-FRQw4,0","Georgia":"YAGzXkO0pEM,0","Helvetica Neue":"YAFcf6CtJfI,0","Impact":"YAFcfnjI7Vk,0","Inter":"YAFdJvSyp_k,3","Iowan Old Style":"YAGNIFa8j9o,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Libre Baskerville":"YACgEUFdPdA,0","Manrope":"YAHO2b2feC4,0","Merriweather":"YACgEXvHxxs,0","Montserrat":"YADLjI9qxTA,0","Nunito":"YACgEX8C5Gg,0","Oleo Script":"YACgEQQ14jI,0","Phantom Sans":"YAHO2E8Pb88,0","Playfair Display":"YACgEYmuCJE,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Quicksand":"YADWjpfPmdk,0","Raleway":"YACgEVg3xZg,0","Segoe UI":"YAHNdRD1Klw,0","Source Sans 3":"YAG4lO1Mj10,0","Spectral":"YAHO2rVUHIM,0","Times New Roman":"YAGzXW3gftg,0","Times":"YAGzXW3gftg,0","Ubuntu":"YACgERDU--Q,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0","ui-monospace":"YADlN8CFZ8Q,0","ui-sans-serif":"YACkoN-xg4g,0"}}');</script>
+  <script src="/_sdk/7949ff62d67710d5.telemetry_sdk.js" integrity="sha512-KIvXA82Di44YY/RH9/63A9MuTuavYgDFG8PfErJn7Wli4K0LAOk+coo/aPXk3+ZNL96nHh9VYD4PE+fLes+laQ=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เกมปลูกผักจิ๋ว</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,700;9..144,800&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #18352a;
+      --paper: #fff9e9;
+      --leaf: #3d7a4b;
+      --soil: #70442d;
+      --clay: #df7343;
+      --sun: #f8c74e;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      width: 100%;
+      margin: 0;
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+      background-color: #fcfbf7;
+    }
+
+    .farm-shell {
+      width: 100%;
+      min-height: calc(100 * min(var(--vh, 1vh), 1vh));
+      position: relative;
+      overflow: hidden;
+      padding: 28px 20px 40px;
+    }
+
+    .farm-shell::before,
+    .farm-shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+      opacity: .55;
+    }
+
+    .farm-shell::before {
+      width: 360px;
+      height: 360px;
+      background: #ffd977;
+      top: -180px;
+      right: -100px;
+    }
+
+    .farm-shell::after {
+      width: 280px;
+      height: 280px;
+      background: #b8db9d;
+      bottom: -150px;
+      left: -100px;
+    }
+
+    .farm-content {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .headline-font { font-family: "Fraunces", serif; }
+
+    .game-card {
+      border: 2px solid rgba(24, 53, 42, .1);
+      box-shadow: 0 12px 0 rgba(24, 53, 42, .08);
+    }
+
+    .seed-card {
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .seed-card:hover:not(:disabled) {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 0 rgba(24, 53, 42, .11);
+    }
+
+    .seed-card:disabled, .inventory-option:disabled {
+      cursor: not-allowed;
+      opacity: .52;
+    }
+
+    .plot {
+      min-height: 166px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(255,255,255,.16) 0 3px, transparent 4px),
+        radial-gradient(circle at 75% 58%, rgba(255,255,255,.12) 0 2px, transparent 3px),
+        #70442d;
+      border: 7px solid #9a6239;
+      box-shadow: inset 0 0 0 2px rgba(41, 20, 12, .25), 0 7px 0 rgba(94, 53, 30, .18);
+      transition: transform .2s ease, filter .2s ease;
+      cursor: pointer;
+    }
+
+    .plot:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.04);
+    }
+    
+    .plot.locked {
+      background: #4a2d1d;
+      border-color: #311c10;
+      box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .25);
+      cursor: not-allowed;
+    }
+    
+    .plot.locked:hover {
+      transform: none;
+      filter: none;
+    }
+
+    .plot.locked.unlockable {
+      cursor: pointer;
+    }
+
+    .plot.locked.unlockable:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.2);
+    }
+
+    .plot.locked::after { display: none !important; }
+    .plot .lock-ui { display: none; }
+    .plot.locked .lock-ui { display: flex; pointer-events: none; }
+    .plot.locked.unlockable .unlock-price { display: block; }
+    .plot.locked .crop-stage, .plot.locked .progress-wrap { display: none !important; }
+
+    .plot:focus-visible,
+    button:focus-visible {
+      outline: 4px solid #1e5b8e;
+      outline-offset: 3px;
+    }
+
+    .plot.empty::after {
+      content: "+";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -65%);
+      color: rgba(255, 249, 233, .72);
+      font-size: 3rem;
+      font-weight: 400;
+    }
+
+    .crop-stage {
+      display: none;
+      font-size: 4.15rem;
+      line-height: 1;
+      filter: drop-shadow(0 5px 1px rgba(34, 19, 12, .28));
+      animation: pop-in .35s ease both;
+    }
+
+    .plot.growing .stage-growing,
+    .plot.ready .stage-ready {
+      display: block;
+    }
+
+    .plot.growing .progress-wrap { display: block; }
+    .progress-wrap { display: none; }
+
+    @keyframes pop-in {
+      from { transform: scale(.5) translateY(12px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    @keyframes rise {
+      from { transform: translateY(14px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .reveal { animation: rise .55s ease both; }
+    .delay-1 { animation-delay: .08s; }
+    .delay-2 { animation-delay: .16s; }
+    .delay-3 { animation-delay: .24s; }
+
+    .fade-in {
+      animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom Scrollbar */
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.05);
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.15);
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(0,0,0,0.25);
+    }
+  </style>
+  <script src="/_sdk/0e8d3a91e1c6f495.data_sdk.js" type="text/javascript" integrity="sha512-c00oDoGjsMgluCLLEyVl3suwEkgjOGGplVFbsilUoBg4aMKNmsL3mwsc9r0dPn95qiSZyjBousQXgROkAW7p/w=="></script>
+  <script src="/_sdk/eba18683f23e5798.resizing_sdk.js" type="text/javascript" integrity="sha512-E0UWUllhwPXaNJtjyTKXWKrIE+FruPfFpO4mRmMDP2LI+U9bOizy5npCq6xx/JyWcvSK7D3TFf2wFR2Mha9kbA=="></script>
+</head>
+<body data-template-id="__page-root">
+  <div class="farm-shell">
+   <div class="farm-content">
+    
+    <!-- ส่วนหัวเกม (แสดงเสมอ) -->
+    <header class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between reveal">
+     <div>
+      <div class="flex items-center gap-2 mb-2">
+       <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#f8c74e] text-[#18352a]"> 
+        <i data-lucide="sprout" width="18" height="18"></i> 
+       </span>
+       <p class="canva-text text-sm font-bold tracking-[0.16em] uppercase">ฟาร์มจำลอง</p>
+      </div>
+      <h1 class="canva-text headline-font font-extrabold leading-tight text-4xl">เกมปลูกผักจิ๋ว</h1>
+      <p class="canva-text mt-2 max-w-xl leading-relaxed">บริหารจัดการเงิน ซื้อเมล็ดพันธุ์ ปลูกผัก และเก็บเกี่ยวผลผลิตไปขาย!</p>
+     </div>
+     <section class="canva-card game-card rounded-[1.35rem] px-6 py-4 flex items-center gap-4 self-start md:self-auto bg-white">
+      <span class="h-12 w-12 rounded-2xl bg-[#f8c74e] text-[#18352a] flex items-center justify-center"> 
+       <i data-lucide="coins" width="25" height="25"></i> 
+      </span>
+      <div>
+       <p class="canva-text text-sm font-semibold text-gray-500">ยอดเงินปัจจุบัน</p>
+       <p id="money-value" class="text-3xl font-bold text-[#18352a]">10 บาท</p>
+      </div>
+     </section>
+    </header>
+    
+    <main class="mt-8 relative">
+     
+     <!-- ===================== หน้าแปลงผัก (Farm View) ===================== -->
+     <div id="farm-view" class="fade-in">
+       <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 bg-[#fff9e9] flex flex-col min-h-[500px]">
+        
+        <!-- แถบเมนูหน้าแปลงผัก -->
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-[#e9e1c8] pb-5 mb-1">
+         <div>
+          <p class="canva-text text-xs uppercase tracking-[.16em] font-bold text-[#70442d]">พื้นที่ของคุณ</p>
+          <h2 class="canva-text headline-font font-bold mt-1 text-2xl">แปลงเกษตร</h2>
+          <p class="canva-text text-sm mt-2 max-w-xs text-gray-600">กดที่แปลงว่างเพื่อปลูก หรือกดที่แม่กุญแจเพื่อปลดล็อกแปลงเพิ่ม</p>
+         </div>
+         <div class="flex flex-wrap items-center gap-3">
+          <!-- ปุ่มไปหน้ากระเป๋า -->
+          <button type="button" id="go-to-inventory" class="canva-button inline-flex items-center justify-center gap-2 rounded-xl bg-[#3d7a4b] text-white px-5 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
+           <i data-lucide="backpack" width="18" height="18"></i> 
+           <span>กระเป๋า & โกดัง</span>
+          </button>
+          <!-- ปุ่มไปหน้าร้านค้า -->
+          <button type="button" id="go-to-shop" class="canva-button inline-flex items-center justify-center gap-2 rounded-xl bg-[#df7343] text-white px-5 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
+           <i data-lucide="store" width="18" height="18"></i> 
+           <span>ร้านค้าเมล็ด</span>
+          </button>
+         </div>
+        </div>
+        
+        <!-- พื้นที่แปลงผัก (12 แปลง) -->
+        <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 mt-6 flex-1" id="plot-grid">
+          <!-- เนื้อหาแปลงผักจะถูกสร้างด้วย JavaScript -->
+        </div>
+        
+        <div class="mt-8 flex justify-end border-t border-[#e9e1c8] pt-5">
+         <button type="button" id="reset-game" class="canva-button inline-flex items-center gap-2 rounded-xl bg-red-100 text-red-700 px-4 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
+          <i data-lucide="rotate-ccw" width="18" height="18"></i> 
+          <span>เริ่มเกมใหม่</span>
+         </button>
+        </div>
+       </section>
+     </div>
+
+     <!-- ===================== หน้ากระเป๋าและโกดัง (Inventory View) ===================== -->
+     <div id="inventory-view" class="hidden fade-in space-y-6">
+       <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 md:p-8 bg-white min-h-[500px]">
+        
+        <!-- แถบเมนูหน้ากระเป๋า -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
+         <div class="flex items-center gap-3 mt-1">
+          <span class="text-[#3d7a4b] bg-green-50 p-2 rounded-full"><i data-lucide="backpack" width="28" height="28"></i></span>
+          <h2 class="canva-text headline-font font-bold text-3xl">กระเป๋าและโกดัง</h2>
+         </div>
+         <button type="button" id="go-to-farm-from-inv" class="canva-button inline-flex items-center gap-2 rounded-xl bg-[#fff9e9] text-[#18352a] border-2 border-[#e9e1c8] px-5 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
+          <i data-lucide="arrow-left" width="20" height="20"></i> 
+          <span>กลับแปลงผัก</span>
+         </button>
+        </div>
+
+        <div class="grid gap-8 md:grid-cols-2">
+          <!-- กระเป๋าเมล็ดพันธุ์ -->
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <span class="h-10 w-10 rounded-xl bg-[#df7343] text-white flex items-center justify-center"> 
+               <i data-lucide="package-open" width="20" height="20"></i> 
+              </span>
+              <div>
+               <h2 class="canva-text headline-font font-bold text-lg">กระเป๋าเก็บเมล็ด</h2>
+               <p class="canva-text text-sm mt-0.5 text-gray-500">ดูเมล็ดที่คุณมีเพื่อนำไปปลูก</p>
+              </div>
+            </div>
+            <!-- Grid สำหรับแสดงกระเป๋า (เปลี่ยนเป็น div ไม่ให้กด) -->
+            <div id="bag-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scroll">
+             <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
+          </div>
+
+          <!-- โกดังผลผลิต -->
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <span class="h-10 w-10 rounded-xl bg-[#3d7a4b] text-white flex items-center justify-center"> 
+               <i data-lucide="box" width="20" height="20"></i> 
+              </span>
+              <div>
+               <h2 class="canva-text headline-font font-bold text-lg">โกดังผลผลิต</h2>
+               <p class="canva-text text-sm mt-0.5 text-gray-500">กดที่ผลผลิตเพื่อขาย</p>
+              </div>
+            </div>
+            <div id="storage-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scroll">
+             <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
+          </div>
+        </div>
+
+       </section>
+     </div>
+
+     <!-- ===================== หน้าร้านค้า (Shop View) ===================== -->
+     <div id="shop-view" class="hidden fade-in">
+      <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 md:p-8 bg-white min-h-[500px]">
+       
+       <!-- แถบเมนูหน้าร้านค้า -->
+       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
+        <div>
+         <p id="shop-timer-text" class="canva-text text-sm tracking-[.05em] font-bold text-[#df7343]">กำลังเตรียมสินค้า...</p>
+         <div class="flex items-center gap-3 mt-1">
+          <span class="text-[#3d7a4b] bg-green-50 p-2 rounded-full"><i data-lucide="shopping-basket" width="28" height="28"></i></span>
+          <h2 class="canva-text headline-font font-bold text-3xl">ร้านค้าเมล็ดพันธุ์</h2>
+         </div>
+        </div>
+        <button type="button" id="go-to-farm-from-shop" class="canva-button inline-flex items-center gap-2 rounded-xl bg-[#fff9e9] text-[#18352a] border-2 border-[#e9e1c8] px-5 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
+         <i data-lucide="arrow-left" width="20" height="20"></i> 
+         <span>กลับแปลงผัก</span>
+        </button>
+       </div>
+
+       <div id="shop-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 lg:gap-4 mt-2 max-h-[400px] overflow-y-auto pr-2 custom-scroll">
+         <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+       </div>
+      </section>
+     </div>
+    </main>
+    
+    <!-- ===================== Modal สำหรับเลือกเมล็ดที่จะปลูก ===================== -->
+    <div id="seed-modal" class="hidden fixed inset-0 bg-[#18352a]/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm fade-in">
+        <div class="bg-[#fcfbf7] border-4 border-[#e9e1c8] rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-[#e9e1c8]">
+                <div>
+                  <h3 class="headline-font font-bold text-2xl text-[#70442d]">เลือกเมล็ดที่จะปลูก</h3>
+                  <p class="text-xs text-gray-500 mt-1">กดที่เมล็ดเพื่อปลูกลงแปลงที่เลือกไว้</p>
+                </div>
+                <button type="button" id="close-seed-modal" class="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 border border-gray-200 shadow-sm">
+                    <i data-lucide="x" width="20" height="20"></i>
+                </button>
+            </div>
+            
+            <div id="modal-seed-list" class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-[50vh] overflow-y-auto custom-scroll pr-2">
+                <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-8 text-center pb-6">
+     <p class="canva-text text-sm text-gray-400">© เกมปลูกผักจิ๋ว - สนุกกับการทำฟาร์ม</p>
+    </footer>
+   </div>
+  </div>
+  <script src="/_sdk/a051f9537983733d.editing_sdk.js" integrity="sha512-IWn3eBHnVt7zQ0Rp79J72qSgJoLbskCA9lcfY4retf+5km4LjuhSHpvx+182KCHmEZ6EbJtWqVsybpV8Sd8PQQ=="></script>
+  <script>
+    const crops = {
+      carrot:     { price: 2,   sell: 4,   emoji: "🥕", name: "แครอท" },
+      lettuce:    { price: 3,   sell: 6,   emoji: "🥬", name: "ผักกาด" },
+      tomato:     { price: 5,   sell: 10,  emoji: "🍅", name: "มะเขือเทศ" },
+      corn:       { price: 8,   sell: 16,  emoji: "🌽", name: "ข้าวโพด" },
+      potato:     { price: 10,  sell: 20,  emoji: "🥔", name: "มันฝรั่ง" },
+      eggplant:   { price: 15,  sell: 30,  emoji: "🍆", name: "มะเขือม่วง" },
+      chili:      { price: 20,  sell: 40,  emoji: "🌶️", name: "พริก" },
+      strawberry: { price: 25,  sell: 50,  emoji: "🍓", name: "สตรอว์เบอร์รี" },
+      watermelon: { price: 35,  sell: 70,  emoji: "🍉", name: "แตงโม" },
+      pumpkin:    { price: 50,  sell: 100, emoji: "🎃", name: "ฟักทอง" },
+      grape:      { price: 80,  sell: 160, emoji: "🍇", name: "องุ่น" },
+      apple:      { price: 120, sell: 240, emoji: "🍎", name: "แอปเปิล" },
+      sunflower:  { price: 200, sell: 400, emoji: "🌻", name: "ทานตะวัน" }
+    };
+    
+    const UNLOCK_PRICE = 30; 
+
+    let money = 10;
+    let inventory = {}; 
+    let harvested = {}; 
+    let shopStock = {};
+    let nextShopRefresh = 0; 
+    let unlockedPlots = 2; 
+    let plots = Array(12).fill(null);
+    let targetPlotIndex = null; // เก็บข้อมูลแปลงที่ผู้เล่นกดเพื่อเตรียมปลูก
+
+    Object.keys(crops).forEach(k => {
+        inventory[k] = 0;
+        harvested[k] = 0;
+        shopStock[k] = 0;
+    });
+
+    const moneyValue = document.getElementById("money-value");
+    const shopList = document.getElementById("shop-list");
+    const bagList = document.getElementById("bag-list");
+    const storageList = document.getElementById("storage-list");
+    const modalSeedList = document.getElementById("modal-seed-list");
+    const seedModal = document.getElementById("seed-modal");
+
+    // ================= ระบบเปลี่ยนหน้า (Navigation) =================
+    const farmView = document.getElementById('farm-view');
+    const shopView = document.getElementById('shop-view');
+    const inventoryView = document.getElementById('inventory-view');
+    
+    function showView(viewToShow) {
+        farmView.classList.add('hidden');
+        shopView.classList.add('hidden');
+        inventoryView.classList.add('hidden');
+        
+        viewToShow.classList.remove('hidden');
+        lucide.createIcons(); 
+    }
+
+    document.getElementById('go-to-shop').addEventListener('click', () => showView(shopView));
+    document.getElementById('go-to-inventory').addEventListener('click', () => showView(inventoryView));
+    
+    document.getElementById('go-to-farm-from-shop').addEventListener('click', () => showView(farmView));
+    document.getElementById('go-to-farm-from-inv').addEventListener('click', () => showView(farmView));
+
+    // ================= สร้าง UI ฝั่ง HTML =================
+    Object.keys(crops).forEach(k => {
+        const c = crops[k];
+        
+        // ปุ่มร้านค้า
+        shopList.innerHTML += `
+        <button type="button" id="buy-${k}" class="canva-card seed-card w-full rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-between text-center gap-2 border border-gray-100 bg-[#fffdf4] shadow-sm"> 
+         <span class="text-4xl mb-1 mt-1" aria-hidden="true">${c.emoji}</span> 
+         <div class="w-full"> 
+          <span class="block font-bold text-sm sm:text-base leading-tight text-[#18352a]">${c.name}</span> 
+          <span class="block text-xs sm:text-sm mt-1 text-gray-600">ราคา: <span class="font-bold text-[#df7343]">${c.price}฿</span></span> 
+          <span class="inline-block text-[10px] sm:text-xs mt-1.5 font-bold text-[#3d7a4b] bg-green-50 px-2 py-0.5 rounded-full border border-green-100">เหลือ: <span id="shop-${k}-stock">0</span></span>
+         </div> 
+         <span id="buy-btn-${k}" class="rounded-xl w-full py-2 mt-2 text-xs sm:text-sm font-bold whitespace-nowrap bg-green-100 text-green-800 transition-colors">ซื้อเลย</span> 
+        </button>`;
+
+        // ช่องแสดงกระเป๋า (เปลี่ยนเป็น div ไม่ต้องกด)
+        bagList.innerHTML += `
+        <div class="rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-2 py-3 flex flex-col items-center shadow-sm"> 
+         <span class="block text-3xl mb-1" aria-hidden="true">${c.emoji}</span> 
+         <span id="${k}-count" class="mt-1 block text-base font-bold text-[#18352a]">0</span> 
+        </div>`;
+
+        // ปุ่มโกดังสำหรับขาย
+        storageList.innerHTML += `
+        <button type="button" id="sell-${k}" class="inventory-option rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-1 py-3 transition-colors flex flex-col items-center shadow-sm"> 
+         <span class="block text-3xl mb-1" aria-hidden="true">${c.emoji}</span> 
+         <span class="mt-1 block text-xs text-gray-500">มี: <span id="harvested-${k}-count" class="font-bold text-gray-800">0</span></span>
+         <span class="mt-2 block text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded-full w-full max-w-[80px]">+${c.sell}฿</span> 
+        </button>`;
+
+        // ปุ่มเลือกเมล็ดใน Modal
+        modalSeedList.innerHTML += `
+        <button type="button" id="modal-plant-${k}" class="inventory-option rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-2 py-4 transition-colors flex flex-col items-center shadow-sm">
+            <span class="block text-4xl mb-2" aria-hidden="true">${c.emoji}</span> 
+            <span class="block text-xs text-gray-600 font-bold">${c.name}</span>
+            <span class="mt-1 block text-sm font-bold text-[#18352a]">มี: <span id="modal-count-${k}">0</span></span>
+        </button>`;
+    });
+
+    const plotGrid = document.getElementById("plot-grid");
+    plotGrid.innerHTML = "";
+    for(let i=0; i<12; i++) {
+        plotGrid.innerHTML += `
+        <button type="button" class="plot empty rounded-2xl flex flex-col items-center justify-center" data-plot="${i}" aria-label="แปลงผัก ${i+1}">
+            <div class="lock-ui flex-col items-center">
+                <i data-lucide="lock" width="24" height="24" class="text-white/50 mb-1"></i>
+                <span class="unlock-price text-[#18352a] font-bold text-xs bg-[#f8c74e] px-2 py-1 rounded-lg mt-1 hidden shadow-sm">ปลดล็อก ${UNLOCK_PRICE}฿</span>
+            </div>
+            <span class="crop-stage stage-growing" aria-hidden="true">🌱</span>
+            <span class="crop-stage stage-ready" aria-hidden="true"></span>
+            <span class="progress-wrap absolute bottom-3 left-3 right-3">
+                <span class="block h-2 overflow-hidden rounded-full bg-[#4b2a1b]">
+                    <span class="progress-bar block h-full rounded-full bg-[#f8c74e]" style="width:0%"></span>
+                </span>
+            </span>
+        </button>
+        `;
+    }
+    const plotButtons = [...document.querySelectorAll(".plot")];
+
+    // ================= ระบบเชื่อมปุ่มต่างๆ =================
+    Object.keys(crops).forEach(type => {
+      document.getElementById("buy-" + type).addEventListener("click", () => buySeed(type));
+      document.getElementById("sell-" + type).addEventListener("click", () => sellCrop(type));
+      document.getElementById(`modal-plant-${type}`).addEventListener('click', () => confirmPlant(type));
+    });
+
+    plotButtons.forEach((plot, index) => {
+      plot.addEventListener("click", () => handlePlot(index));
+    });
+
+    document.getElementById("reset-game").addEventListener("click", resetGame);
+    document.getElementById("close-seed-modal").addEventListener("click", closeSeedModal);
+
+
+    // ================= ฟังก์ชันหลักของเกม =================
+    function randomizeShop() {
+      Object.keys(crops).forEach(k => {
+          shopStock[k] = Math.floor(Math.random() * 4); 
+      });
+      nextShopRefresh = Date.now() + 3 * 60 * 1000;
+      updateUI();
+      saveGame();
+    }
+
+    function updateUI() {
+      moneyValue.textContent = money + " บาท";
+
+      Object.keys(crops).forEach(type => {
+        // ร้านค้า
+        document.getElementById("shop-" + type + "-stock").textContent = shopStock[type];
+        const buyButton = document.getElementById("buy-" + type);
+        const buyBtnVisual = document.getElementById("buy-btn-" + type);
+        
+        const canBuy = money >= crops[type].price && shopStock[type] > 0;
+        buyButton.disabled = !canBuy;
+        
+        if(canBuy) {
+            buyBtnVisual.classList.remove("opacity-50", "bg-gray-200", "text-gray-500");
+            buyBtnVisual.classList.add("bg-green-100", "text-green-800");
+        } else {
+            buyBtnVisual.classList.add("opacity-50", "bg-gray-200", "text-gray-500");
+            buyBtnVisual.classList.remove("bg-green-100", "text-green-800");
+        }
+        
+        // กระเป๋า (เปลี่ยนแค่ตัวเลข ไม่มีการกด selected แล้ว)
+        document.getElementById(type + "-count").textContent = inventory[type];
+
+        // โกดัง
+        document.getElementById("harvested-" + type + "-count").textContent = harvested[type];
+        const sellButton = document.getElementById("sell-" + type);
+        sellButton.disabled = harvested[type] === 0;
+      });
+      
+      // สถานะปลดล็อกแปลง
+      plotButtons.forEach((plot, index) => {
+          if (index < unlockedPlots) {
+             plot.classList.remove("locked", "unlockable");
+             plot.disabled = false;
+          } else {
+             plot.classList.add("locked");
+             if (index === unlockedPlots) {
+                plot.classList.add("unlockable");
+             } else {
+                plot.classList.remove("unlockable");
+             }
+          }
+      });
+    }
+
+    function buySeed(type) {
+      const crop = crops[type];
+      if (shopStock[type] <= 0) {
+        alert("เมล็ด" + crop.name + "หมดสต๊อกแล้ว รอร้านเติมของรอบถัดไปนะ");
+        return;
+      }
+      if (money < crop.price) {
+        alert("เงินไม่พอสำหรับซื้อ" + crop.name + " นำผลผลิตไปขายเพื่อหาเงินเพิ่มนะ");
+        return;
+      }
+
+      money -= crop.price;
+      shopStock[type] -= 1;
+      inventory[type] += 1;
+      updateUI();
+      saveGame();
+    }
+
+    function openSeedModal(index) {
+        targetPlotIndex = index;
+        
+        // อัปเดตข้อมูลและเปิดปิดปุ่มใน Modal
+        Object.keys(crops).forEach(k => {
+            document.getElementById(`modal-count-${k}`).textContent = inventory[k];
+            const btn = document.getElementById(`modal-plant-${k}`);
+            btn.disabled = inventory[k] === 0;
+            if (inventory[k] === 0) {
+                btn.classList.add("opacity-50", "cursor-not-allowed");
+            } else {
+                btn.classList.remove("opacity-50", "cursor-not-allowed");
+            }
+        });
+        
+        seedModal.classList.remove('hidden');
+    }
+
+    function closeSeedModal() {
+        seedModal.classList.add('hidden');
+        targetPlotIndex = null;
+    }
+
+    function confirmPlant(type) {
+      if (inventory[type] < 1) return;
+      if (targetPlotIndex === null) return;
+      if (plots[targetPlotIndex]) return;
+
+      inventory[type] -= 1;
+      plots[targetPlotIndex] = { type, plantedAt: Date.now(), ready: false };
+
+      const plot = plotButtons[targetPlotIndex];
+      plot.classList.remove("empty", "ready");
+      plot.classList.add("growing");
+      plot.querySelector(".stage-ready").textContent = crops[type].emoji;
+      plot.setAttribute("aria-label", "แปลงผักกำลังปลูก " + crops[type].name);
+
+      closeSeedModal();
+      updateUI();
+      saveGame();
+    }
+
+    function harvestCrop(index) {
+      const cropData = plots[index];
+      if (!cropData || !cropData.ready) return;
+
+      harvested[cropData.type] += 1;
+      plots[index] = null;
+
+      const plot = plotButtons[index];
+      plot.classList.remove("growing", "ready");
+      plot.classList.add("empty");
+      plot.querySelector(".progress-bar").style.width = "0%";
+      plot.setAttribute("aria-label", "แปลงผักว่าง");
+
+      updateUI();
+      saveGame();
+    }
+
+    function sellCrop(type) {
+      if (harvested[type] > 0) {
+        const crop = crops[type];
+        harvested[type] -= 1;
+        money += crop.sell;
+        updateUI();
+        saveGame();
+      }
+    }
+    
+    function unlockPlot() {
+      if (money >= UNLOCK_PRICE) {
+          money -= UNLOCK_PRICE;
+          unlockedPlots++;
+          updateUI();
+          saveGame();
+      } else {
+          alert(`เงินไม่พอ! ต้องใช้ ${UNLOCK_PRICE} บาทในการปลดล็อกแปลงใหม่`);
+      }
+    }
+
+    function handlePlot(index) {
+      if (index >= unlockedPlots) {
+        if (index === unlockedPlots && unlockedPlots < 12) {
+            unlockPlot();
+        }
+        return;
+      }
+        
+      const plotData = plots[index];
+      if (!plotData) {
+        openSeedModal(index); // เปิด Modal ให้เลือกเมล็ด
+      } else if (plotData.ready) {
+        harvestCrop(index); // เก็บเกี่ยว
+      }
+    }
+
+    function gameLoop() {
+      const now = Date.now();
+      
+      if (now >= nextShopRefresh && nextShopRefresh !== 0) {
+        randomizeShop();
+      } else {
+        const remainingTime = Math.max(0, nextShopRefresh - now);
+        const mins = Math.floor(remainingTime / 60000);
+        const secs = Math.floor((remainingTime % 60000) / 1000);
+        document.getElementById("shop-timer-text").textContent = `เติมสินค้าใน ${mins}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      plots.forEach((plotData, index) => {
+        if (!plotData || plotData.ready || index >= unlockedPlots) return;
+
+        const elapsed = now - plotData.plantedAt;
+        const percent = Math.min(100, (elapsed / 10000) * 100);
+        const plot = plotButtons[index];
+        plot.querySelector(".progress-bar").style.width = percent + "%";
+
+        if (elapsed >= 10000) {
+          plotData.ready = true;
+          plot.classList.remove("growing");
+          plot.classList.add("ready");
+          plot.setAttribute("aria-label", crops[plotData.type].name + "โตเต็มที่ กดเพื่อเก็บเกี่ยว");
+          saveGame(); 
+        }
+      });
+    }
+
+    function resetGame() {
+      if (!confirm("คุณแน่ใจหรือไม่ว่าต้องการเริ่มเกมใหม่? ข้อมูลและเงินทั้งหมดจะถูกลบเริ่มต้นใหม่")) {
+        return; 
+      }
+
+      money = 10;
+      unlockedPlots = 2;
+      plots = Array(12).fill(null);
+      
+      Object.keys(crops).forEach(k => {
+          inventory[k] = 0;
+          harvested[k] = 0;
+      });
+      
+      randomizeShop();
+
+      plotButtons.forEach((plot, index) => {
+        plot.classList.remove("growing", "ready");
+        plot.classList.add("empty");
+        plot.querySelector(".progress-bar").style.width = "0%";
+        plot.querySelector(".stage-ready").textContent = "";
+        plot.setAttribute("aria-label", "แปลงผักว่าง");
+      });
+
+      updateUI();
+      saveGame();
+    }
+
+    // ================= ระบบเซฟเกม =================
+    function saveGame() {
+      const gameData = {
+        money: money,
+        inventory: inventory,
+        harvested: harvested,
+        shopStock: shopStock,
+        nextShopRefresh: nextShopRefresh,
+        unlockedPlots: unlockedPlots,
+        plots: plots
+      };
+      localStorage.setItem('tinyFarmSave', JSON.stringify(gameData));
+    }
+
+    function loadGame() {
+      const savedData = localStorage.getItem('tinyFarmSave');
+      if (savedData) {
+        const data = JSON.parse(savedData);
+        money = data.money || 10;
+        unlockedPlots = data.unlockedPlots || 2;
+        
+        Object.keys(crops).forEach(k => {
+            inventory[k] = data.inventory?.[k] || 0;
+            harvested[k] = data.harvested?.[k] || 0;
+            shopStock[k] = data.shopStock?.[k] || 0;
+        });
+        
+        const loadedPlots = data.plots || [];
+        plots = Array(12).fill(null).map((_, i) => loadedPlots[i] || null);
+        
+        nextShopRefresh = data.nextShopRefresh || 0;
+        
+        plots.forEach((plotData, index) => {
+          if (index >= unlockedPlots) return;
+          const plot = plotButtons[index];
+          if (plotData) {
+            if (plotData.ready) {
+              plot.classList.remove("empty", "growing");
+              plot.classList.add("ready");
+              plot.querySelector(".stage-ready").textContent = crops[plotData.type].emoji;
+            } else {
+              plot.classList.remove("empty", "ready");
+              plot.classList.add("growing");
+              plot.querySelector(".stage-ready").textContent = crops[plotData.type].emoji;
+            }
+          }
+        });
+      }
+      
+      if (nextShopRefresh === 0 || Date.now() >= nextShopRefresh) {
+        randomizeShop();
+      }
+    }
+
+    // ================= เริ่มทำงาน =================
+    lucide.createIcons();
+    
+    document.getElementById('go-to-shop').addEventListener('click', () => lucide.createIcons());
+    document.getElementById('go-to-inventory').addEventListener('click', () => lucide.createIcons());
+    document.getElementById('go-to-farm-from-shop').addEventListener('click', () => lucide.createIcons());
+    document.getElementById('go-to-farm-from-inv').addEventListener('click', () => lucide.createIcons());
+
+    loadGame(); 
+    updateUI();
+    setInterval(gameLoop, 150);
+
+  </script>
+</body>
+</html>
