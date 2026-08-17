@@ -354,11 +354,14 @@
         </button>
        </div>
 
+       <!-- คอนเทนเนอร์ใส่ปุ่มซื้อ (ปรับเป็น 3 คอลัมน์ ถึง 6 คอลัมน์) -->
        <div id="shop-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 lg:gap-4 mt-2 max-h-[400px] overflow-y-auto pr-2 custom-scroll">
          <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
        </div>
+
       </section>
      </div>
+
     </main>
     
     <!-- ===================== Modal สำหรับเลือกเมล็ดที่จะปลูก ===================== -->
@@ -398,12 +401,20 @@
       strawberry: { price: 25,  sell: 50,  emoji: "🍓", name: "สตรอว์เบอร์รี" },
       watermelon: { price: 35,  sell: 70,  emoji: "🍉", name: "แตงโม" },
       pumpkin:    { price: 50,  sell: 100, emoji: "🎃", name: "ฟักทอง" },
+      melon:      { price: 60,  sell: 120, emoji: "🍈", name: "เมลอน" },
       grape:      { price: 80,  sell: 160, emoji: "🍇", name: "องุ่น" },
+      pineapple:  { price: 90,  sell: 180, emoji: "🍍", name: "สับปะรด" },
+      peach:      { price: 100, sell: 200, emoji: "🍑", name: "พีช" },
       apple:      { price: 120, sell: 240, emoji: "🍎", name: "แอปเปิล" },
-      sunflower:  { price: 200, sell: 400, emoji: "🌻", name: "ทานตะวัน" }
+      cherry:     { price: 150, sell: 300, emoji: "🍒", name: "เชอร์รี" },
+      sunflower:  { price: 200, sell: 400, emoji: "🌻", name: "ทานตะวัน" },
+      blueberry:  { price: 250, sell: 500, emoji: "🫐", name: "บลูเบอร์รี" },
+      lemon:      { price: 300, sell: 600, emoji: "🍋", name: "เลมอน" },
+      coconut:    { price: 500, sell: 1000, emoji: "🥥", name: "มะพร้าว" }
     };
     
-    const UNLOCK_PRICE = 30; 
+    // ราคาปลดล็อกแบบขั้นบันได 12 แปลง (แปลที่ 0 และ 1 ปลดล็อกตั้งแต่ต้น)
+    const plotUnlockPrices = [0, 0, 30, 50, 100, 200, 400, 800, 1500, 3000, 5000, 10000];
 
     let money = 10;
     let inventory = {}; 
@@ -494,7 +505,7 @@
         <button type="button" class="plot empty rounded-2xl flex flex-col items-center justify-center" data-plot="${i}" aria-label="แปลงผัก ${i+1}">
             <div class="lock-ui flex-col items-center">
                 <i data-lucide="lock" width="24" height="24" class="text-white/50 mb-1"></i>
-                <span class="unlock-price text-[#18352a] font-bold text-xs bg-[#f8c74e] px-2 py-1 rounded-lg mt-1 hidden shadow-sm">ปลดล็อก ${UNLOCK_PRICE}฿</span>
+                <span class="unlock-price text-[#18352a] font-bold text-xs bg-[#f8c74e] px-2 py-1 rounded-lg mt-1 hidden shadow-sm">ปลดล็อก ${plotUnlockPrices[i]}฿</span>
             </div>
             <span class="crop-stage stage-growing" aria-hidden="true">🌱</span>
             <span class="crop-stage stage-ready" aria-hidden="true"></span>
@@ -553,7 +564,7 @@
             buyBtnVisual.classList.remove("bg-green-100", "text-green-800");
         }
         
-        // กระเป๋า (เปลี่ยนแค่ตัวเลข ไม่มีการกด selected แล้ว)
+        // กระเป๋า 
         document.getElementById(type + "-count").textContent = inventory[type];
 
         // โกดัง
@@ -666,13 +677,14 @@
     }
     
     function unlockPlot() {
-      if (money >= UNLOCK_PRICE) {
-          money -= UNLOCK_PRICE;
+      const cost = plotUnlockPrices[unlockedPlots];
+      if (money >= cost) {
+          money -= cost;
           unlockedPlots++;
           updateUI();
           saveGame();
       } else {
-          alert(`เงินไม่พอ! ต้องใช้ ${UNLOCK_PRICE} บาทในการปลดล็อกแปลงใหม่`);
+          alert(`เงินไม่พอ! ต้องใช้ ${cost} บาทในการปลดล็อกแปลงใหม่`);
       }
     }
 
