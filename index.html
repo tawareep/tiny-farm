@@ -168,7 +168,6 @@
       display: block;
     }
 
-    /* สไตล์สำหรับตัวเลขนับถอยหลังบนแปลงผัก */
     .plot.growing .timer-text { display: block; }
     .timer-text { display: none; z-index: 10; }
 
@@ -196,7 +195,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Custom Scrollbar */
     .custom-scroll::-webkit-scrollbar {
       width: 6px;
     }
@@ -212,13 +210,12 @@
       background: rgba(0,0,0,0.25);
     }
   </style>
-  <script src="/_sdk/0e8d3a91e1c6f495.data_sdk.js" type="text/javascript" integrity="sha512-c00oDoGjsMgluCLLEyVl3suwEkgjOGGplVFbsilUoBg4aMKNmsL3mwsc9r0dPn95qiSZyjBousQXgROkAW7p/w=="></script>
-  <script src="/_sdk/eba18683f23e5798.resizing_sdk.js" type="text/javascript" integrity="sha512-E0UWUllhwPXaNJtjyTKXWKrIE+FruPfFpO4mRmMDP2LI+U9bOizy5npCq6xx/JyWcvSK7D3TFf2wFR2Mha9kbA=="></script>
 </head>
 <body data-template-id="__page-root">
   <div class="farm-shell">
    <div class="farm-content">
     
+    <!-- ส่วนหัวเกม (แสดงเสมอ) -->
     <header class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between reveal">
      <div>
       <div class="flex items-center gap-2 mb-2">
@@ -228,7 +225,7 @@
        <p class="canva-text text-sm font-bold tracking-[0.16em] uppercase">ฟาร์มจำลอง</p>
       </div>
       <h1 class="canva-text headline-font font-extrabold leading-tight text-4xl">เกมปลูกผักจิ๋ว</h1>
-      <p class="canva-text mt-2 max-w-xl leading-relaxed">ปลูกผัก แปรรูปสินค้า และบริหารเงินเพื่อขยายฟาร์มของคุณ!</p>
+      <p class="canva-text mt-2 max-w-xl leading-relaxed">ปลูกผัก แปรรูปสินค้า และสร้างระบบฟาร์มอัตโนมัติ!</p>
      </div>
      <section class="canva-card game-card rounded-[1.35rem] px-6 py-4 flex items-center gap-4 self-start md:self-auto bg-white">
       <span class="h-12 w-12 rounded-2xl bg-[#f8c74e] text-[#18352a] flex items-center justify-center"> 
@@ -243,33 +240,54 @@
     
     <main class="mt-8 relative">
      
+     <!-- ===================== หน้าแปลงผัก (Farm View) ===================== -->
      <div id="farm-view" class="fade-in">
        <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 bg-[#fff9e9] flex flex-col min-h-[500px]">
         
-        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 border-b border-[#e9e1c8] pb-5 mb-1">
+        <!-- แถบเมนูหน้าแปลงผัก -->
+        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 border-b border-[#e9e1c8] pb-5 mb-6">
          <div>
           <p class="canva-text text-xs uppercase tracking-[.16em] font-bold text-[#70442d]">พื้นที่ของคุณ</p>
           <h2 class="canva-text headline-font font-bold mt-1 text-2xl">แปลงเกษตร</h2>
           <p class="canva-text text-sm mt-2 max-w-xs text-gray-600">กดที่แปลงว่างเพื่อปลูก หรือกดที่แม่กุญแจเพื่อปลดล็อกแปลง</p>
          </div>
          <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <!-- ปุ่มไปหน้าร้านค้า -->
           <button type="button" id="go-to-shop" class="canva-button flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-[#df7343] text-white px-4 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
            <i data-lucide="store" width="18" height="18"></i> 
            <span class="text-sm">ร้านค้า</span>
           </button>
+          <!-- ปุ่มโรงแปรรูป (คราฟ) -->
           <button type="button" id="go-to-craft" class="canva-button flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-[#eab308] text-white px-4 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
            <i data-lucide="chef-hat" width="18" height="18"></i> 
-           <span class="text-sm">แปรรูป</span>
+           <span class="text-sm">แปรรูป / คราฟเมล็ด</span>
           </button>
+          <!-- ปุ่มไปหน้ากระเป๋า -->
           <button type="button" id="go-to-inventory" class="canva-button flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-[#3d7a4b] text-white px-4 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
            <i data-lucide="backpack" width="18" height="18"></i> 
            <span class="text-sm">กระเป๋า/โกดัง</span>
           </button>
          </div>
         </div>
-        
-        <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 mt-6 flex-1" id="plot-grid">
+
+        <!-- แปลงอัตโนมัติ (Auto Plot) -->
+        <div class="mb-6 p-5 rounded-2xl bg-gradient-to-r from-[#dcfce7] to-[#f0fdf4] border-2 border-[#bbf7d0] relative overflow-hidden shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+             <h3 class="headline-font font-bold text-xl text-[#166534] flex items-center gap-2">
+               <i data-lucide="bot" width="24" height="24"></i> แปลงปลูกอัตโนมัติ
+             </h3>
+             <span class="text-xs font-bold text-white bg-[#166534] px-3 py-1.5 rounded-full inline-block text-center shadow-sm">ทำงานแม้ตอนปิดเกม (สูงสุด 2 ชม.)</span>
           </div>
+          
+          <div id="auto-plot-ui" class="flex flex-col sm:flex-row items-center gap-4">
+             <!-- จะถูกสร้างและอัปเดตด้วย JS -->
+          </div>
+        </div>
+        
+        <!-- พื้นที่แปลงผักปกติ (12 แปลง) -->
+        <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 flex-1" id="plot-grid">
+          <!-- เนื้อหาแปลงผักจะถูกสร้างด้วย JavaScript -->
+        </div>
         
         <div class="mt-8 flex justify-end border-t border-[#e9e1c8] pt-5">
          <button type="button" id="reset-game" class="canva-button inline-flex items-center gap-2 rounded-xl bg-red-100 text-red-700 px-4 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
@@ -280,13 +298,15 @@
        </section>
      </div>
 
+     <!-- ===================== หน้ากระเป๋าและโกดัง (Inventory View) ===================== -->
      <div id="inventory-view" class="hidden fade-in space-y-6">
        <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 md:p-8 bg-white min-h-[500px]">
         
+        <!-- แถบเมนูหน้ากระเป๋า -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
          <div class="flex items-center gap-3 mt-1">
           <span class="text-[#3d7a4b] bg-green-50 p-2 rounded-full"><i data-lucide="backpack" width="28" height="28"></i></span>
-          <h2 class="canva-text headline-font font-bold text-3xl">โกดังเก็บของ</h2>
+          <h2 class="canva-text headline-font font-bold text-3xl">กระเป๋าและโกดัง</h2>
          </div>
          <button type="button" id="go-to-farm-from-inv" class="canva-button inline-flex items-center gap-2 rounded-xl bg-[#fff9e9] text-[#18352a] border-2 border-[#e9e1c8] px-5 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
           <i data-lucide="arrow-left" width="20" height="20"></i> 
@@ -295,23 +315,42 @@
         </div>
 
         <div class="grid gap-8 md:grid-cols-2">
+          <!-- กระเป๋าเมล็ดธรรมดา -->
           <div>
             <div class="flex items-center gap-3 mb-4">
               <span class="h-10 w-10 rounded-xl bg-[#df7343] text-white flex items-center justify-center"> 
+               <i data-lucide="package-open" width="20" height="20"></i> 
+              </span>
+              <div>
+               <h2 class="canva-text headline-font font-bold text-lg">เมล็ดธรรมดา</h2>
+               <p class="canva-text text-sm mt-0.5 text-gray-500">เก็บไว้สำหรับปลูกลงแปลงปกติ</p>
+              </div>
+            </div>
+            <div id="bag-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll border-b border-gray-100 pb-4">
+             <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
+          </div>
+
+          <!-- โกดังวัตถุดิบ (ผลผลิตดิบ) -->
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <span class="h-10 w-10 rounded-xl bg-[#eab308] text-white flex items-center justify-center"> 
                <i data-lucide="wheat" width="20" height="20"></i> 
               </span>
               <div>
                <h2 class="canva-text headline-font font-bold text-lg">ผลผลิตสด</h2>
-               <p class="canva-text text-sm mt-0.5 text-gray-500">กดที่ไอเทมเพื่อขาย หรือนำไปแปรรูป</p>
+               <p class="canva-text text-sm mt-0.5 text-gray-500">กดที่ไอเทมเพื่อขายทำเงิน</p>
               </div>
             </div>
             <div id="storage-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll border-b border-gray-100 pb-4">
-             </div>
+             <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
           </div>
-
+          
+          <!-- โกดังสินค้าแปรรูป (Crafted) -->
           <div>
             <div class="flex items-center gap-3 mb-4">
-              <span class="h-10 w-10 rounded-xl bg-[#eab308] text-white flex items-center justify-center"> 
+              <span class="h-10 w-10 rounded-xl bg-[#f43f5e] text-white flex items-center justify-center"> 
                <i data-lucide="gift" width="20" height="20"></i> 
               </span>
               <div>
@@ -319,17 +358,36 @@
                <p class="canva-text text-sm mt-0.5 text-gray-500">ขายได้ราคาสูงกว่าปกติ!</p>
               </div>
             </div>
-            <div id="crafted-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll border-b border-gray-100 pb-4">
-             </div>
+            <div id="crafted-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll">
+             <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
+          </div>
+          
+          <!-- กระเป๋าเมล็ดพิเศษ -->
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <span class="h-10 w-10 rounded-xl bg-[#8b5cf6] text-white flex items-center justify-center"> 
+               <i data-lucide="sparkles" width="20" height="20"></i> 
+              </span>
+              <div>
+               <h2 class="canva-text headline-font font-bold text-lg">เมล็ดพิเศษ</h2>
+               <p class="canva-text text-sm mt-0.5 text-gray-500">ปลูกในแปลงอัตโนมัติเท่านั้น</p>
+              </div>
+            </div>
+            <div id="special-bag-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll">
+             <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
           </div>
         </div>
 
        </section>
      </div>
 
+     <!-- ===================== หน้าร้านค้า (Shop View) ===================== -->
      <div id="shop-view" class="hidden fade-in">
       <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 md:p-8 bg-white min-h-[500px]">
        
+       <!-- แถบเมนูหน้าร้านค้า -->
        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
         <div>
          <p id="shop-timer-text" class="canva-text text-sm tracking-[.05em] font-bold text-[#df7343]">กำลังเตรียมสินค้า...</p>
@@ -344,17 +402,20 @@
         </button>
        </div>
 
-       <div id="shop-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 lg:gap-4 mt-2 max-h-[400px] overflow-y-auto pr-2 custom-scroll">
-         </div>
+       <div id="shop-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 lg:gap-4 mt-2 max-h-[500px] overflow-y-auto pr-2 custom-scroll">
+         <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+       </div>
       </section>
      </div>
 
+     <!-- ===================== หน้าโรงแปรรูป (Crafting View) ===================== -->
      <div id="craft-view" class="hidden fade-in">
       <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 md:p-8 bg-white min-h-[500px]">
        
+       <!-- แถบเมนูหน้าคราฟ -->
        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
         <div>
-         <p class="canva-text text-sm tracking-[.05em] font-bold text-[#df7343]">เพิ่มมูลค่าให้ผลผลิต</p>
+         <p class="canva-text text-sm tracking-[.05em] font-bold text-[#eab308]">เพิ่มมูลค่าให้ผลผลิต</p>
          <div class="flex items-center gap-3 mt-1">
           <span class="text-[#eab308] bg-yellow-50 p-2 rounded-full"><i data-lucide="chef-hat" width="28" height="28"></i></span>
           <h2 class="canva-text headline-font font-bold text-3xl">โรงแปรรูปสินค้า</h2>
@@ -366,27 +427,63 @@
         </button>
        </div>
 
-       <div id="recipe-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2 max-h-[400px] overflow-y-auto pr-2 custom-scroll">
+       <div id="recipe-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2 mb-8 max-h-[300px] overflow-y-auto pr-2 custom-scroll">
+         <!-- สูตรอาหารจะถูกสร้างด้วย Javascript -->
+       </div>
+       
+       <!-- โซนคราฟเมล็ดพิเศษสำหรับแปลงอัตโนมัติ -->
+       <div class="border-t border-gray-100 pt-8">
+        <div class="mb-4">
+         <p class="canva-text text-sm tracking-[.05em] font-bold text-[#8b5cf6]">เทคโนโลยีแห่งอนาคต</p>
+         <div class="flex items-center gap-3 mt-1 mb-2">
+          <span class="text-[#8b5cf6] bg-purple-50 p-2 rounded-full"><i data-lucide="sparkles" width="24" height="24"></i></span>
+          <h2 class="canva-text headline-font font-bold text-2xl">สร้างเมล็ดพิเศษ</h2>
          </div>
+         <p class="text-sm text-gray-500">ใช้เมล็ดธรรมดา <span class="font-bold text-[#18352a]">100 อัน</span> เพื่อสร้างเมล็ดพิเศษ 1 อัน สำหรับปลูกใน <span class="font-bold text-[#166534]">แปลงอัตโนมัติ</span> (เก็บเกี่ยวเองตลอดเวลาแม้ออฟไลน์!)</p>
+        </div>
+        <div id="special-seed-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto pr-2 custom-scroll pb-4">
+         <!-- เมล็ดพิเศษจะถูกสร้างด้วย Javascript -->
+        </div>
+       </div>
+       
       </section>
      </div>
 
     </main>
     
+    <!-- ===================== Modal เลือกเมล็ดปลูกแปลงปกติ ===================== -->
     <div id="seed-modal" class="hidden fixed inset-0 bg-[#18352a]/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm fade-in">
         <div class="bg-[#fcfbf7] border-4 border-[#e9e1c8] rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
             <div class="flex justify-between items-center mb-5 pb-3 border-b border-[#e9e1c8]">
                 <div>
                   <h3 class="headline-font font-bold text-2xl text-[#70442d]">กระเป๋าเมล็ดพันธุ์</h3>
-                  <p class="text-xs text-gray-500 mt-1">กดที่เมล็ดเพื่อปลูกลงแปลงที่เลือกไว้</p>
+                  <p class="text-xs text-gray-500 mt-1">กดที่เมล็ดเพื่อปลูกลงแปลงปกติ</p>
                 </div>
                 <button type="button" id="close-seed-modal" class="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 border border-gray-200 shadow-sm">
                     <i data-lucide="x" width="20" height="20"></i>
                 </button>
             </div>
-            
             <div id="modal-seed-list" class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-[50vh] overflow-y-auto custom-scroll pr-2">
+                <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- ===================== Modal เลือกเมล็ดปลูกแปลงอัตโนมัติ ===================== -->
+    <div id="auto-seed-modal" class="hidden fixed inset-0 bg-[#166534]/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm fade-in">
+        <div class="bg-[#fcfbf7] border-4 border-[#bbf7d0] rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-[#bbf7d0]">
+                <div>
+                  <h3 class="headline-font font-bold text-2xl text-[#166534]">เลือกเมล็ดพิเศษ</h3>
+                  <p class="text-xs text-gray-500 mt-1">ปลูกแล้วหุ่นยนต์จะเก็บเกี่ยวให้เรื่อยๆ เปลี่ยนเมล็ดทีหลังได้</p>
                 </div>
+                <button type="button" id="close-auto-seed-modal" class="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 border border-gray-200 shadow-sm">
+                    <i data-lucide="x" width="20" height="20"></i>
+                </button>
+            </div>
+            <div id="auto-modal-seed-list" class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-[50vh] overflow-y-auto custom-scroll pr-2">
+                <!-- เนื้อหาจะถูกสร้างด้วย Javascript -->
+            </div>
         </div>
     </div>
 
@@ -421,7 +518,7 @@
       coconut:    { price: 500, sell: 1000, emoji: "🥥", name: "มะพร้าว" }
     };
     
-    // ฐานข้อมูลสูตรแปรรูป พร้อมเวลาที่ใช้ (วินาที)
+    // ฐานข้อมูลสูตรแปรรูป 
     const recipes = {
       carrot_juice: { name: "น้ำแครอท", emoji: "🧃", sell: 12, craftTime: 5, req: { carrot: 2 } }, 
       salad:        { name: "สลัดผักรวม", emoji: "🥗", sell: 30, craftTime: 8, req: { lettuce: 2, tomato: 1 } }, 
@@ -433,21 +530,26 @@
     
     // ราคาปลดล็อกแบบขั้นบันได 12 แปลง (แปลที่ 0 และ 1 ปลดล็อกตั้งแต่ต้น)
     const plotUnlockPrices = [0, 0, 30, 50, 100, 200, 400, 800, 1500, 3000, 5000, 10000];
+    const AUTO_PLOT_PRICE = 50000;
 
     let money = 10;
     let inventory = {}; 
+    let specialInventory = {}; 
     let harvested = {}; 
     let craftedItems = {};
-    let activeCrafts = {}; // เก็บเวลาที่จะคราฟเสร็จของแต่ละสูตร
+    let activeCrafts = {}; 
     let shopStock = {};
     let nextShopRefresh = 0; 
     let unlockedPlots = 2; 
     let plots = Array(12).fill(null);
     let targetPlotIndex = null; 
+    
+    let autoPlot = { unlocked: false, activeSeed: null, lastUpdate: 0 };
 
-    // ตั้งค่าเริ่มต้นของตัวแปร
+    // ตั้งค่าเริ่มต้น
     Object.keys(crops).forEach(k => {
         inventory[k] = 0;
+        specialInventory[k] = 0;
         harvested[k] = 0;
         shopStock[k] = 0;
     });
@@ -457,11 +559,16 @@
 
     const moneyValue = document.getElementById("money-value");
     const shopList = document.getElementById("shop-list");
+    const bagList = document.getElementById("bag-list");
+    const specialBagList = document.getElementById("special-bag-list");
     const storageList = document.getElementById("storage-list");
     const craftedList = document.getElementById("crafted-list");
     const recipeList = document.getElementById("recipe-list");
+    const specialSeedList = document.getElementById("special-seed-list");
     const modalSeedList = document.getElementById("modal-seed-list");
+    const autoModalSeedList = document.getElementById("auto-modal-seed-list");
     const seedModal = document.getElementById("seed-modal");
+    const autoSeedModal = document.getElementById("auto-seed-modal");
 
     // ================= ระบบเปลี่ยนหน้า (Navigation) =================
     const farmView = document.getElementById('farm-view');
@@ -488,11 +595,10 @@
     document.getElementById('go-to-farm-from-craft').addEventListener('click', () => showView(farmView));
 
     // ================= สร้าง UI ฝั่ง HTML =================
-    // 1. ร้านค้า, โกดัง(ดิบ), และ Modal เลือกเมล็ด
     Object.keys(crops).forEach(k => {
         const c = crops[k];
         
-        // ปุ่มร้านค้า
+        // 1. ปุ่มร้านค้า
         shopList.innerHTML += `
         <button type="button" id="buy-${k}" class="canva-card seed-card w-full rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-between text-center gap-2 border border-gray-100 bg-[#fffdf4] shadow-sm"> 
          <span class="text-4xl mb-1 mt-1" aria-hidden="true">${c.emoji}</span> 
@@ -504,58 +610,94 @@
          <span id="buy-btn-${k}" class="rounded-xl w-full py-2 mt-2 text-xs sm:text-sm font-bold whitespace-nowrap bg-green-100 text-green-800 transition-colors">ซื้อเลย</span> 
         </button>`;
 
-        // ปุ่มโกดังสำหรับขายดิบ
+        // 2. กระเป๋าเมล็ดธรรมดา 
+        bagList.innerHTML += `
+        <div class="rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-2 py-3 flex flex-col items-center shadow-sm"> 
+         <span class="block text-3xl mb-1" aria-hidden="true">${c.emoji}</span> 
+         <span id="${k}-count" class="mt-1 block text-base font-bold text-[#18352a]">0</span> 
+        </div>`;
+        
+        // 3. กระเป๋าเมล็ดพิเศษ
+        specialBagList.innerHTML += `
+        <div class="rounded-xl border-2 border-[#d6c9a7] bg-[#f8f5ff] px-2 py-3 flex flex-col items-center shadow-sm"> 
+         <span class="block text-3xl mb-1" aria-hidden="true">${c.emoji}</span> 
+         <span class="text-[10px] text-gray-500 font-bold bg-white px-1 rounded shadow-sm relative -top-2">พิเศษ</span>
+         <span id="special-${k}-count" class="block text-base font-bold text-[#8b5cf6]">0</span> 
+        </div>`;
+
+        // 4. โกดังผลผลิต (ขายดิบ)
         storageList.innerHTML += `
-        <button type="button" id="sell-${k}" class="inventory-option rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-1 py-3 transition-colors flex flex-col items-center shadow-sm"> 
+        <button type="button" id="sell-${k}" class="inventory-option rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-1 py-3 transition-colors flex flex-col items-center shadow-sm hover:-translate-y-1"> 
          <span class="block text-3xl mb-1" aria-hidden="true">${c.emoji}</span> 
          <span class="mt-1 block text-xs text-gray-500">มี: <span id="harvested-${k}-count" class="font-bold text-gray-800">0</span></span>
          <span class="mt-2 block text-xs font-bold text-[#df7343] bg-orange-50 px-2 py-1 rounded-full w-full max-w-[80px]">+${c.sell}฿</span> 
         </button>`;
 
-        // ปุ่มเลือกเมล็ดใน Modal
+        // 5. ปุ่มคราฟเมล็ดพิเศษ
+        specialSeedList.innerHTML += `
+        <div class="canva-card rounded-2xl p-4 flex items-center justify-between gap-2 border border-gray-100 bg-[#f8f5ff] shadow-sm">
+          <div class="flex items-center gap-3 flex-1">
+             <span class="text-4xl" aria-hidden="true">${c.emoji}</span>
+             <div>
+               <h3 class="font-bold text-[#18352a] text-sm">เมล็ดพิเศษ${c.name}</h3>
+               <span class="inline-block mt-1 text-[10px] bg-white border border-gray-200 rounded px-2 py-0.5 text-gray-600 font-bold">ใช้ ${c.name} x100</span>
+             </div>
+          </div>
+          <button type="button" id="craft-special-${k}" class="rounded-xl px-3 py-2 text-xs font-bold bg-[#8b5cf6] text-white transition-transform hover:-translate-y-0.5 shadow-sm whitespace-nowrap text-center">
+            สร้าง
+          </button>
+        </div>`;
+
+        // 6. Modal เลือกเมล็ดธรรมดา
         modalSeedList.innerHTML += `
         <button type="button" id="modal-plant-${k}" class="inventory-option rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-2 py-4 transition-colors flex flex-col items-center shadow-sm">
             <span class="block text-4xl mb-2" aria-hidden="true">${c.emoji}</span> 
             <span class="block text-xs text-gray-600 font-bold">${c.name}</span>
             <span class="mt-1 block text-sm font-bold text-[#18352a]">มี: <span id="modal-count-${k}">0</span></span>
         </button>`;
+        
+        // 7. Modal เลือกเมล็ดพิเศษ
+        autoModalSeedList.innerHTML += `
+        <button type="button" id="auto-modal-plant-${k}" class="inventory-option rounded-xl border-2 border-[#bbf7d0] bg-[#f0fdf4] px-2 py-4 transition-colors flex flex-col items-center shadow-sm">
+            <span class="block text-4xl mb-2" aria-hidden="true">${c.emoji}</span> 
+            <span class="block text-xs text-[#166534] font-bold">พิเศษ${c.name}</span>
+            <span class="mt-1 block text-sm font-bold text-[#166534]">มี: <span id="auto-modal-count-${k}">0</span></span>
+        </button>`;
     });
 
-    // 2. หน้าสูตรแปรรูป และ โกดัง(คราฟ)
+    // 8. สูตรอาหารคราฟ
     Object.keys(recipes).forEach(k => {
         const r = recipes[k];
         
         let reqHTML = '';
         Object.keys(r.req).forEach(reqKey => {
-            reqHTML += `<span class="inline-flex items-center gap-1 text-xs bg-gray-100 rounded-md px-2 py-1"><span class="text-sm">${crops[reqKey].emoji}</span>x${r.req[reqKey]}</span>`;
+            reqHTML += `<span class="inline-flex items-center gap-1 text-[10px] bg-gray-100 rounded-md px-1.5 py-0.5 font-bold"><span class="text-sm">${crops[reqKey].emoji}</span>x${r.req[reqKey]}</span>`;
         });
 
-        // ปุ่มคราฟ
         recipeList.innerHTML += `
         <div class="canva-card rounded-2xl p-4 flex items-center justify-between gap-3 border border-gray-100 bg-[#fffdf4] shadow-sm">
-          <div class="flex items-center gap-4 flex-1">
+          <div class="flex items-center gap-3 flex-1">
              <span class="text-5xl" aria-hidden="true">${r.emoji}</span>
              <div>
-               <h3 class="font-bold text-[#18352a] text-lg">${r.name}</h3>
+               <h3 class="font-bold text-[#18352a] text-base">${r.name}</h3>
                <div class="flex flex-wrap gap-1 mt-1">${reqHTML}</div>
                <span class="block text-[10px] text-gray-500 mt-1">ใช้เวลา ${r.craftTime} วินาที</span>
              </div>
           </div>
-          <button type="button" id="craft-${k}" class="rounded-xl px-4 py-3 text-sm font-bold bg-[#eab308] text-white transition-transform hover:-translate-y-0.5 shadow-sm whitespace-nowrap min-w-[70px] text-center">
+          <button type="button" id="craft-${k}" class="rounded-xl px-4 py-3 text-xs font-bold bg-[#eab308] text-white transition-transform hover:-translate-y-0.5 shadow-sm whitespace-nowrap min-w-[60px] text-center">
             ผลิต
           </button>
         </div>`;
 
-        // ปุ่มโกดังสำหรับขายของคราฟ
         craftedList.innerHTML += `
-        <button type="button" id="sell-craft-${k}" class="inventory-option rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-1 py-3 transition-colors flex flex-col items-center shadow-sm"> 
+        <button type="button" id="sell-craft-${k}" class="inventory-option rounded-xl border-2 border-[#d6c9a7] bg-[#fffdf4] px-1 py-3 transition-colors flex flex-col items-center shadow-sm hover:-translate-y-1"> 
          <span class="block text-3xl mb-1" aria-hidden="true">${r.emoji}</span> 
          <span class="mt-1 block text-xs text-gray-500">มี: <span id="crafted-${k}-count" class="font-bold text-gray-800">0</span></span>
          <span class="mt-2 block text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded-full w-full max-w-[80px]">+${r.sell}฿</span> 
         </button>`;
     });
 
-    // 3. แปลงผัก 12 แปลง (เปลี่ยน Progress Bar เป็นตัวเลขนับถอยหลังแทน)
+    // 9. แปลงผัก 12 แปลง 
     const plotGrid = document.getElementById("plot-grid");
     plotGrid.innerHTML = "";
     for(let i=0; i<12; i++) {
@@ -574,11 +716,107 @@
     }
     const plotButtons = [...document.querySelectorAll(".plot")];
 
+
+    // ================= ฟังก์ชัน Auto Plot =================
+    function updateAutoPlotUI() {
+        const container = document.getElementById("auto-plot-ui");
+        if (!autoPlot.unlocked) {
+            container.innerHTML = `
+              <button onclick="unlockAutoPlot()" class="w-full py-5 rounded-xl border-2 border-dashed border-[#166534]/40 text-[#166534] font-bold flex flex-col items-center gap-2 hover:bg-[#166534]/5 transition">
+                <i data-lucide="lock" width="28" height="28"></i>
+                ซื้อหุ่นยนต์และปลดล็อกแปลงอัตโนมัติ (${AUTO_PLOT_PRICE.toLocaleString()} ฿)
+              </button>
+            `;
+        } else if (!autoPlot.activeSeed) {
+            container.innerHTML = `
+              <button onclick="openAutoSeedModal()" class="w-full py-5 rounded-xl border-2 border-dashed border-[#166534] bg-white text-[#166534] font-bold flex flex-col items-center gap-2 hover:bg-green-50 transition shadow-sm">
+                <span class="text-4xl drop-shadow-sm mb-1">➕</span>
+                กดเพื่อเลือก "เมล็ดพิเศษ" ลงปลูก
+              </button>
+            `;
+        } else {
+            const c = crops[autoPlot.activeSeed];
+            container.innerHTML = `
+              <div class="flex-1 w-full bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border border-[#bbf7d0]">
+                <span class="text-5xl drop-shadow-md">${c.emoji}</span>
+                <div class="flex-1">
+                  <p class="font-bold text-[#166534] text-lg mb-1 flex items-center gap-2">
+                     <i data-lucide="cog" width="16" height="16" class="animate-spin text-gray-400"></i>
+                     กำลังผลิต: ${c.name}
+                  </p>
+                  <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden relative shadow-inner">
+                    <div id="auto-plot-progress" class="h-full bg-[#22c55e] w-0 transition-all duration-150"></div>
+                  </div>
+                  <p class="text-[11px] text-gray-500 mt-1.5 font-medium">เข้าโกดังใน: <span id="auto-plot-timer" class="font-bold text-[#166534]">10s</span></p>
+                </div>
+              </div>
+              <button onclick="openAutoSeedModal()" class="w-full sm:w-auto shrink-0 px-5 py-4 rounded-xl bg-white border border-gray-200 text-gray-700 font-bold hover:bg-gray-50 shadow-sm transition flex items-center justify-center gap-2">
+                <i data-lucide="refresh-cw" width="18" height="18"></i> เปลี่ยนเมล็ด
+              </button>
+            `;
+        }
+        lucide.createIcons();
+    }
+    
+    function unlockAutoPlot() {
+        if (money >= AUTO_PLOT_PRICE) {
+            money -= AUTO_PLOT_PRICE;
+            autoPlot.unlocked = true;
+            updateUI();
+            saveGame();
+            alert("ยินดีด้วย! คุณมีแปลงปลูกอัตโนมัติแล้ว หาเมล็ดพิเศษมาปลูกได้เลย!");
+        } else {
+            alert(`เงินไม่พอ! ต้องใช้ ${AUTO_PLOT_PRICE.toLocaleString()} บาทในการปลดล็อก`);
+        }
+    }
+
+    function openAutoSeedModal() {
+        Object.keys(crops).forEach(k => {
+            const btn = document.getElementById(`auto-modal-plant-${k}`);
+            if (btn) {
+                document.getElementById(`auto-modal-count-${k}`).textContent = specialInventory[k];
+                btn.disabled = specialInventory[k] === 0;
+                if (specialInventory[k] === 0) {
+                    btn.classList.add("opacity-50", "cursor-not-allowed");
+                } else {
+                    btn.classList.remove("opacity-50", "cursor-not-allowed");
+                }
+            }
+        });
+        document.getElementById('auto-seed-modal').classList.remove('hidden');
+    }
+
+    function closeAutoSeedModal() {
+        document.getElementById('auto-seed-modal').classList.add('hidden');
+    }
+
+    function confirmAutoPlant(type) {
+        if (specialInventory[type] < 1) return;
+        
+        // ถ้าเคยปลูกเมล็ดอื่นอยู่ คืนเมล็ดเดิมเข้ากระเป๋า
+        if (autoPlot.activeSeed) {
+            specialInventory[autoPlot.activeSeed] += 1;
+        }
+        
+        specialInventory[type] -= 1;
+        autoPlot.activeSeed = type;
+        autoPlot.lastUpdate = Date.now();
+        
+        closeAutoSeedModal();
+        updateUI();
+        saveGame();
+    }
+    
     // ================= ระบบเชื่อมปุ่มต่างๆ =================
     Object.keys(crops).forEach(type => {
       document.getElementById("buy-" + type).addEventListener("click", () => buySeed(type));
       document.getElementById("sell-" + type).addEventListener("click", () => sellCrop(type));
       document.getElementById(`modal-plant-${type}`).addEventListener('click', () => confirmPlant(type));
+      
+      // ปุ่มคราฟเมล็ดพิเศษ
+      document.getElementById(`craft-special-${type}`).addEventListener("click", () => craftSpecialSeed(type));
+      // ปุ่มเลือกเมล็ดลงแปลงออโต้
+      document.getElementById(`auto-modal-plant-${type}`).addEventListener('click', () => confirmAutoPlant(type));
     });
     
     Object.keys(recipes).forEach(k => {
@@ -592,6 +830,7 @@
 
     document.getElementById("reset-game").addEventListener("click", resetGame);
     document.getElementById("close-seed-modal").addEventListener("click", closeSeedModal);
+    document.getElementById("close-auto-seed-modal").addEventListener("click", closeAutoSeedModal);
 
 
     // ================= ฟังก์ชันหลักของเกม =================
@@ -607,7 +846,6 @@
     function updateUI() {
       moneyValue.textContent = money.toLocaleString() + " บาท";
 
-      // อัปเดตวัตถุดิบ (ร้านค้า, โกดัง)
       Object.keys(crops).forEach(type => {
         // ร้านค้า
         document.getElementById("shop-" + type + "-stock").textContent = shopStock[type];
@@ -625,7 +863,11 @@
             buyBtnVisual.classList.remove("bg-green-100", "text-green-800");
         }
         
-        // โกดังขายดิบ
+        // กระเป๋า 
+        document.getElementById(type + "-count").textContent = inventory[type];
+        document.getElementById("special-" + type + "-count").textContent = specialInventory[type];
+
+        // โกดัง
         document.getElementById("harvested-" + type + "-count").textContent = harvested[type];
         const sellButton = document.getElementById("sell-" + type);
         sellButton.disabled = harvested[type] === 0;
@@ -644,18 +886,15 @@
         });
         
         if (activeCrafts[k]) {
-            // กำลังผลิตอยู่ (ปิดปุ่ม)
             craftBtn.classList.add("opacity-50", "bg-gray-400", "cursor-not-allowed");
             craftBtn.classList.remove("bg-[#eab308]");
             craftBtn.disabled = true;
         } else if (canCraft) {
-            // ผลิตได้
             craftBtn.classList.remove("opacity-50", "bg-gray-300", "bg-gray-400", "cursor-not-allowed");
             craftBtn.classList.add("bg-[#eab308]");
             craftBtn.disabled = false;
             craftBtn.textContent = "ผลิต";
         } else {
-            // ของไม่พอ
             craftBtn.classList.add("opacity-50", "bg-gray-300", "cursor-not-allowed");
             craftBtn.classList.remove("bg-[#eab308]", "bg-gray-400");
             craftBtn.disabled = true;
@@ -668,7 +907,7 @@
         sellCraftBtn.disabled = craftedItems[k] === 0;
       });
 
-      // สถานะปลดล็อกแปลง
+      // สถานะปลดล็อกแปลงปกติ
       plotButtons.forEach((plot, index) => {
           if (index < unlockedPlots) {
              plot.classList.remove("locked", "unlockable");
@@ -682,6 +921,8 @@
              }
           }
       });
+      
+      updateAutoPlotUI();
     }
 
     function buySeed(type) {
@@ -694,6 +935,18 @@
       inventory[type] += 1;
       updateUI();
       saveGame();
+    }
+    
+    function craftSpecialSeed(type) {
+        if (inventory[type] >= 100) {
+            inventory[type] -= 100;
+            specialInventory[type] += 1;
+            updateUI();
+            saveGame();
+            alert(`✨ สำเร็จ! คุณได้รับ "เมล็ดพิเศษ${crops[type].name}" นำไปปลูกในแปลงอัตโนมัติได้เลย`);
+        } else {
+            alert(`เมล็ดธรรมดาไม่พอ (มี ${inventory[type]}/100 ชิ้น)`);
+        }
     }
 
     function openSeedModal(index) {
@@ -747,26 +1000,24 @@
       const plot = plotButtons[index];
       plot.classList.remove("growing", "ready");
       plot.classList.add("empty");
+      plot.querySelector(".timer-text").textContent = "10s";
       plot.setAttribute("aria-label", "แปลงผักว่าง");
 
       updateUI();
       saveGame();
     }
 
-    // ขายของดิบ
     function sellCrop(type) {
       if (harvested[type] > 0) {
-        const crop = crops[type];
         harvested[type] -= 1;
-        money += crop.sell;
+        money += crops[type].sell;
         updateUI();
         saveGame();
       }
     }
     
-    // คราฟของแบบมีเวลา
     function craftItem(recipeId) {
-        if (activeCrafts[recipeId]) return; // กำลังคราฟอยู่
+        if (activeCrafts[recipeId]) return; 
 
         const r = recipes[recipeId];
         let canCraft = true;
@@ -775,18 +1026,15 @@
         });
         if (!canCraft) return;
 
-        // หักวัตถุดิบ
         Object.keys(r.req).forEach(reqKey => {
             harvested[reqKey] -= r.req[reqKey];
         });
         
-        // เริ่มจับเวลา
         activeCrafts[recipeId] = Date.now() + (r.craftTime * 1000);
         updateUI();
         saveGame();
     }
     
-    // ขายของคราฟ
     function sellCrafted(recipeId) {
         if (craftedItems[recipeId] > 0) {
             craftedItems[recipeId] -= 1;
@@ -796,7 +1044,7 @@
         }
     }
     
-    function unlockPlot() {
+    function unlockPlot(index) {
       const cost = plotUnlockPrices[unlockedPlots];
       if (money >= cost) {
           money -= cost;
@@ -837,7 +1085,7 @@
         document.getElementById("shop-timer-text").textContent = `เติมสินค้าใน ${mins}:${secs.toString().padStart(2, '0')}`;
       }
 
-      // อัปเดตเวลานับถอยหลังของแปลงผัก
+      // อัปเดตเวลานับถอยหลังของแปลงผักปกติ
       plots.forEach((plotData, index) => {
         if (!plotData || plotData.ready || index >= unlockedPlots) return;
 
@@ -858,6 +1106,29 @@
           saveGame(); 
         }
       });
+      
+      // อัปเดตการทำงานของแปลงปลูกอัตโนมัติ (รอบละ 10 วินาที)
+      if (autoPlot.unlocked && autoPlot.activeSeed) {
+          let elapsed = now - autoPlot.lastUpdate;
+          
+          if (elapsed >= 10000) {
+              let cycles = Math.floor(elapsed / 10000);
+              harvested[autoPlot.activeSeed] += cycles;
+              autoPlot.lastUpdate += cycles * 10000;
+              saveGame();
+              updateUI(); // ให้บวกของเข้าโกดัง
+          }
+          
+          // วาด UI อนิเมชัน
+          let prog = document.getElementById("auto-plot-progress");
+          let tim = document.getElementById("auto-plot-timer");
+          if (prog && tim) {
+              let currentElapsed = now - autoPlot.lastUpdate;
+              let percent = (currentElapsed / 10000) * 100;
+              prog.style.width = percent + "%";
+              tim.textContent = Math.ceil((10000 - currentElapsed)/1000) + "s";
+          }
+      }
 
       // อัปเดตเวลานับถอยหลังของโรงแปรรูป
       let craftedSomething = false;
@@ -867,7 +1138,6 @@
           const btn = document.getElementById("craft-" + recipeId);
           
           if (remaining <= 0) {
-              // ผลิตเสร็จแล้ว
               craftedItems[recipeId] += 1;
               delete activeCrafts[recipeId];
               craftedSomething = true;
@@ -876,14 +1146,12 @@
                   btn.classList.remove("bg-gray-400", "cursor-not-allowed");
               }
           } else {
-              // กำลังผลิต
               if(btn) {
                   btn.textContent = Math.ceil(remaining / 1000) + "s";
               }
           }
       });
 
-      // หากมีของคราฟเสร็จ ให้อัปเดต UI หน้าจอใหม่
       if (craftedSomething) {
           updateUI();
           saveGame();
@@ -899,9 +1167,11 @@
       unlockedPlots = 2;
       plots = Array(12).fill(null);
       activeCrafts = {};
+      autoPlot = { unlocked: false, activeSeed: null, lastUpdate: 0 };
       
       Object.keys(crops).forEach(k => {
           inventory[k] = 0;
+          specialInventory[k] = 0;
           harvested[k] = 0;
       });
       Object.keys(recipes).forEach(k => {
@@ -920,18 +1190,20 @@
       saveGame();
     }
 
-    // ================= ระบบเซฟเกม =================
+    // ================= ระบบเซฟเกมและชดเชยเวลาออฟไลน์ =================
     function saveGame() {
       const gameData = {
         money: money,
         inventory: inventory,
+        specialInventory: specialInventory,
         harvested: harvested,
         craftedItems: craftedItems,
         activeCrafts: activeCrafts,
         shopStock: shopStock,
         nextShopRefresh: nextShopRefresh,
         unlockedPlots: unlockedPlots,
-        plots: plots
+        plots: plots,
+        autoPlot: autoPlot
       };
       localStorage.setItem('tinyFarmSave', JSON.stringify(gameData));
     }
@@ -942,9 +1214,11 @@
         const data = JSON.parse(savedData);
         money = data.money || 10;
         unlockedPlots = data.unlockedPlots || 2;
+        autoPlot = data.autoPlot || { unlocked: false, activeSeed: null, lastUpdate: 0 };
         
         Object.keys(crops).forEach(k => {
             inventory[k] = data.inventory?.[k] || 0;
+            specialInventory[k] = data.specialInventory?.[k] || 0;
             harvested[k] = data.harvested?.[k] || 0;
             shopStock[k] = data.shopStock?.[k] || 0;
         });
@@ -953,10 +1227,8 @@
         });
         
         activeCrafts = data.activeCrafts || {};
-        
         const loadedPlots = data.plots || [];
         plots = Array(12).fill(null).map((_, i) => loadedPlots[i] || null);
-        
         nextShopRefresh = data.nextShopRefresh || 0;
         
         plots.forEach((plotData, index) => {
@@ -974,6 +1246,36 @@
             }
           }
         });
+        
+        // คำนวณชดเชยเวลาออฟไลน์ของแปลงอัตโนมัติ (สะสมให้สูงสุด 2 ชั่วโมง)
+        if (autoPlot.unlocked && autoPlot.activeSeed && autoPlot.lastUpdate > 0) {
+            let now = Date.now();
+            let elapsed = now - autoPlot.lastUpdate;
+            let maxOffline = 2 * 60 * 60 * 1000; // 2 hours
+            
+            if (elapsed > maxOffline) {
+                let cycles = Math.floor(maxOffline / 10000);
+                harvested[autoPlot.activeSeed] += cycles;
+                autoPlot.lastUpdate = now; // เริ่มต้นนับใหม่เพื่อไม่ให้โดนเก็บทันทีอีกรอบ
+                setTimeout(() => {
+                   alert(`ยินดีต้อนรับกลับ! 🤖 แปลงอัตโนมัติทำงานเต็มลิมิตออฟไลน์ (2 ชม.) และเก็บเกี่ยว ${crops[autoPlot.activeSeed].name} ให้คุณได้ ${cycles.toLocaleString()} ชิ้น`);
+                   updateUI(); 
+                }, 500);
+            } else {
+                let actualOffline = Math.max(0, elapsed);
+                let cycles = Math.floor(actualOffline / 10000);
+                if (cycles > 0) {
+                    harvested[autoPlot.activeSeed] += cycles;
+                    autoPlot.lastUpdate += cycles * 10000; 
+                    if (cycles > 5) { // แจ้งเตือนเฉพาะถ้าปิดไปนานกว่า 50 วิ
+                        setTimeout(() => {
+                           alert(`ยินดีต้อนรับกลับ! 🤖 แปลงอัตโนมัติได้เก็บเกี่ยว ${crops[autoPlot.activeSeed].name} จำนวน ${cycles.toLocaleString()} ชิ้น ขณะที่คุณออฟไลน์`);
+                           updateUI(); 
+                        }, 500);
+                    }
+                }
+            }
+        }
       }
       
       if (nextShopRefresh === 0 || Date.now() >= nextShopRefresh) {
