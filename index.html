@@ -318,7 +318,6 @@
          </div>
         </div>
         
-        <!-- ค่ายทรัพยากรอัตโนมัติ (Auto Resource Camp) -->
         <div class="mb-8 p-5 rounded-2xl bg-gradient-to-r from-[#ccfbf1] to-[#f0fdfa] border-2 border-[#99f6e4] relative overflow-hidden shadow-sm">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
              <h3 class="headline-font font-bold text-xl text-[#0f766e] flex items-center gap-2">
@@ -372,6 +371,19 @@
           <h2 class="canva-text headline-font font-bold mt-1 text-2xl">บ่อตกปลา</h2>
           <p class="canva-text text-sm mt-2 max-w-xs text-gray-600">ใช้เบ็ด 1 อัน และ เหยื่อ 1 อันต่อการตกปลา 1 ครั้ง (สุ่มได้ปลา 10 ชนิด)</p>
          </div>
+        </div>
+        
+        <!-- บ่อตกปลาอัตโนมัติ -->
+        <div class="mb-8 p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 relative overflow-hidden shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+             <h3 class="headline-font font-bold text-xl text-blue-800 flex items-center gap-2">
+               <i data-lucide="bot" width="24" height="24"></i> บ่อตกปลาอัตโนมัติ
+             </h3>
+             <span class="text-xs font-bold text-white bg-blue-600 px-3 py-1.5 rounded-full inline-block text-center shadow-sm">ทำงานแม้ตอนปิดเกม (สูงสุด 2 ชม.)</span>
+          </div>
+          <div id="auto-fishing-ui" class="flex flex-col sm:flex-row items-center gap-4">
+             <!-- สร้างด้วย JS -->
+          </div>
         </div>
 
         <div class="flex flex-col items-center justify-center p-10 bg-gradient-to-b from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-[2rem] mt-4 relative overflow-hidden shadow-inner">
@@ -529,8 +541,21 @@
          <h2 class="canva-text headline-font font-bold mt-1 mb-2 text-2xl">สร้างอุปกรณ์พิเศษ</h2>
          <p class="text-sm text-gray-500">ใช้อุปกรณ์ธรรมดา <span class="font-bold text-[#18352a]">100 อัน</span> เพื่อสร้างอุปกรณ์พิเศษ 1 อัน สำหรับใช้ใน <span class="font-bold text-[#0f766e]">ค่ายทรัพยากรอัตโนมัติ</span></p>
         </div>
-        <div id="special-tool-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto pr-2 custom-scroll pb-4">
+        <div id="special-tool-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto pr-2 custom-scroll pb-8">
          <!-- อุปกรณ์พิเศษจะถูกสร้างด้วย Javascript -->
+        </div>
+       </div>
+
+       <!-- เพิ่มส่วนผสมอุปกรณ์ตกปลาพิเศษ -->
+       <div class="border-t border-gray-100 pt-8">
+        <div class="mb-4">
+         <p class="canva-text text-sm tracking-[.05em] font-bold text-blue-600">เทคโนโลยีแห่งอนาคต (แหล่งน้ำ)</p>
+         <h2 class="canva-text headline-font font-bold mt-1 mb-2 text-2xl">สร้างอุปกรณ์ตกปลาพิเศษ</h2>
+         <p class="text-sm text-gray-500">ใช้อุปกรณ์ธรรมดา <span class="font-bold text-[#18352a]">100 อัน</span> เพื่อสร้างอุปกรณ์พิเศษ 1 อัน สำหรับใช้ใน <span class="font-bold text-blue-600">บ่อตกปลาอัตโนมัติ</span></p>
+        </div>
+        <!-- ที่นี่คือ div ที่ขาดหายไปในเวอร์ชันก่อนหน้านี้ ทำให้สคริปต์หยุดทำงาน -->
+        <div id="special-fishing-tool-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto pr-2 custom-scroll pb-4">
+         <!-- อุปกรณ์ตกปลาพิเศษจะถูกสร้างด้วย Javascript -->
         </div>
        </div>
        
@@ -582,6 +607,39 @@
                 </button>
             </div>
             <div id="auto-modal-tool-list" class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-h-[50vh] overflow-y-auto custom-scroll pr-2"></div>
+        </div>
+    </div>
+
+    <div id="auto-fishing-modal" class="hidden fixed inset-0 bg-blue-900/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm fade-in">
+        <div class="bg-white border-4 border-blue-200 rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-blue-100">
+                <div>
+                  <h3 class="headline-font font-bold text-2xl text-blue-800">ติดตั้งอุปกรณ์ตกปลาอัตโนมัติ</h3>
+                  <p class="text-xs text-gray-500 mt-1">ต้องใช้เบ็ดพิเศษและเหยื่อพิเศษอย่างละ 1 อัน</p>
+                </div>
+                <button type="button" id="close-auto-fishing-modal" class="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 border border-gray-200 shadow-sm">
+                    <i data-lucide="x" width="20" height="20"></i>
+                </button>
+            </div>
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl bg-gray-50">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">🎣</span>
+                        <span class="font-bold text-blue-900">เบ็ดตกปลาพิเศษ</span>
+                    </div>
+                    <span class="font-bold text-gray-600" id="modal-special-rod-count">มี: 0</span>
+                </div>
+                <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl bg-gray-50">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">🪱</span>
+                        <span class="font-bold text-orange-700">เหยื่อตกปลาพิเศษ</span>
+                    </div>
+                    <span class="font-bold text-gray-600" id="modal-special-bait-count">มี: 0</span>
+                </div>
+                <button type="button" id="equip-auto-fishing-btn" onclick="confirmAutoFishing()" class="mt-2 rounded-xl py-3 text-lg font-bold bg-blue-500 text-white transition-transform hover:-translate-y-0.5 shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+                    ติดตั้งและเริ่มตกปลา
+                </button>
+            </div>
         </div>
     </div>
 
@@ -657,6 +715,7 @@
     const plotUnlockPrices = [0, 0, 30, 50, 100, 200, 400, 800, 1500, 3000, 5000, 10000];
     const AUTO_PLOT_PRICE = 50000;
     const AUTO_RES_PRICE = 50000;
+    const AUTO_FISHING_PRICE = 50000;
 
     let money = 10;
     let inventory = {}; 
@@ -680,8 +739,10 @@
     let autoResource = { unlocked: false, activeTool: null, lastUpdate: 0 };
 
     let inventoryFishingTools = { fishing_rod: 0, fish_bait: 0 };
+    let specialInventoryFishingTools = { fishing_rod: 0, fish_bait: 0 };
     let shopFishingToolStock = { fishing_rod: 5, fish_bait: 10 };
     let inventoryFishes = {};
+    let autoFishing = { unlocked: false, activeRod: false, activeBait: false, lastUpdate: 0 };
 
     let fishingMsgTimeout;
 
@@ -710,14 +771,19 @@
     const fishList = document.getElementById("fish-list");
     const craftedList = document.getElementById("crafted-list");
     const recipeList = document.getElementById("recipe-list");
+    
     const specialSeedList = document.getElementById("special-seed-list");
     const specialToolList = document.getElementById("special-tool-list");
+    const specialFishingToolList = document.getElementById("special-fishing-tool-list");
+    
     const modalSeedList = document.getElementById("modal-seed-list");
     const autoModalSeedList = document.getElementById("auto-modal-seed-list");
     const autoModalToolList = document.getElementById("auto-modal-tool-list");
+    
     const seedModal = document.getElementById("seed-modal");
     const autoSeedModal = document.getElementById("auto-seed-modal");
     const autoToolModal = document.getElementById("auto-tool-modal");
+    const autoFishingModal = document.getElementById("auto-fishing-modal");
 
     // ================= ระบบเปลี่ยนหน้าแบบใหม่ (Universal Nav) =================
     const farmView = document.getElementById('farm-view');
@@ -744,6 +810,7 @@
         
         document.getElementById(viewId).classList.remove('hidden');
 
+        // อัปเดตสีปุ่ม
         const buttons = [
             { id: 'farm-view', btn: navFarm, activeClass: 'bg-[#18352a]', textClass: 'text-white' },
             { id: 'resource-view', btn: navResource, activeClass: 'bg-[#0f766e]', textClass: 'text-white' },
@@ -781,6 +848,7 @@
     let fishHTML = `<div id="fish-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">ยังไม่มีสัตว์น้ำเลย (ไปตกปลาได้ที่เมนูตกปลา)</div>`;
     let specialSeedCraftHTML = '';
     let specialToolCraftHTML = '';
+    let specialFishingToolCraftHTML = '';
     let modalSeedHTML = `<div id="modal-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">คุณไม่มีเมล็ดพันธุ์เลย ไปซื้อที่ร้านค้าก่อนนะ</div>`;
     let autoModalSeedHTML = `<div id="auto-modal-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">คุณยังไม่มีเมล็ดพิเศษสักอันเลย ไปที่โรงแปรรูปเพื่อสร้างมันขึ้นมานะ</div>`;
     let autoModalToolHTML = `<div id="auto-tool-modal-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">คุณยังไม่มีอุปกรณ์พิเศษสักอันเลย ไปที่โรงแปรรูปเพื่อสร้างมันขึ้นมานะ</div>`;
@@ -802,6 +870,27 @@
         <div id="bag-ftool-item-${k}" class="hidden rounded-xl border-2 border-blue-100 bg-white px-2 py-3 flex flex-col items-center shadow-sm"> 
          <span class="block text-3xl mb-1" aria-hidden="true">${t.emoji}</span> 
          <span id="ftool-${k}-count" class="mt-1 block text-base font-bold text-blue-800">0</span> 
+        </div>`;
+        
+        specialBagHTML += `
+        <div id="special-bag-ftool-item-${k}" class="hidden rounded-xl border-2 border-blue-100 bg-blue-50 px-2 py-3 flex flex-col items-center shadow-sm"> 
+         <span class="block text-3xl mb-1" aria-hidden="true">${t.emoji}</span> 
+         <span class="text-[10px] text-blue-700 font-bold bg-white px-1 rounded shadow-sm relative -top-2">พิเศษ</span>
+         <span id="special-ftool-${k}-count" class="block text-base font-bold text-blue-800">0</span> 
+        </div>`;
+        
+        specialFishingToolCraftHTML += `
+        <div class="canva-card rounded-2xl p-4 flex items-center justify-between gap-3 border border-gray-100 bg-blue-50 shadow-sm">
+          <div class="flex items-center gap-3 flex-1">
+             <span class="text-4xl" aria-hidden="true">${t.emoji}</span>
+             <div>
+               <h3 class="font-bold text-blue-800 text-sm sm:text-base">พิเศษ${t.name}</h3>
+               <span class="inline-flex items-center gap-1 mt-1 text-[11px] bg-white border border-blue-100 rounded-md px-2 py-0.5 text-blue-700 font-bold shadow-sm">ใช้ ${t.name} x100</span>
+             </div>
+          </div>
+          <button type="button" id="craft-special-ftool-btn-${k}" class="rounded-xl px-4 py-2 text-xs sm:text-sm font-bold bg-gray-200 text-gray-400 cursor-not-allowed transition-transform shadow-sm whitespace-nowrap text-center disabled:hover:translate-y-0 disabled:shadow-none" disabled>
+            สร้าง
+          </button>
         </div>`;
     });
 
@@ -961,6 +1050,7 @@
     fishList.innerHTML = fishHTML;
     specialSeedList.innerHTML = specialSeedCraftHTML;
     document.getElementById("special-tool-list").innerHTML = specialToolCraftHTML;
+    document.getElementById("special-fishing-tool-list").innerHTML = specialFishingToolCraftHTML;
     modalSeedList.innerHTML = modalSeedHTML;
     autoModalSeedList.innerHTML = autoModalSeedHTML;
     autoModalToolList.innerHTML = autoModalToolHTML;
@@ -1020,6 +1110,7 @@
 
     Object.keys(fishingToolsData).forEach(k => {
       document.getElementById("buy-ftool-" + k).addEventListener("click", () => buyFishingTool(k));
+      document.getElementById(`craft-special-ftool-btn-${k}`).addEventListener("click", () => craftSpecialFishingTool(k));
     });
 
     Object.keys(fishesData).forEach(k => {
@@ -1034,6 +1125,12 @@
       document.getElementById("craft-" + k).addEventListener("click", () => craftItem(k));
       document.getElementById("sell-craft-" + k).addEventListener("click", () => sellCrafted(k));
     });
+
+    document.getElementById("close-seed-modal").addEventListener("click", closeSeedModal);
+    document.getElementById("close-auto-seed-modal").addEventListener("click", closeAutoSeedModal);
+    document.getElementById("close-auto-tool-modal").addEventListener("click", closeAutoToolModal);
+    document.getElementById("close-auto-fishing-modal").addEventListener("click", closeAutoFishingModal);
+    document.getElementById("reset-game").addEventListener("click", resetGame);
 
     const plotGrid = document.getElementById("plot-grid");
     function renderFarmPlots() {
@@ -1057,11 +1154,6 @@
         lucide.createIcons();
     }
     renderFarmPlots();
-
-    document.getElementById("reset-game").addEventListener("click", resetGame);
-    document.getElementById("close-seed-modal").addEventListener("click", closeSeedModal);
-    document.getElementById("close-auto-seed-modal").addEventListener("click", closeAutoSeedModal);
-    document.getElementById("close-auto-tool-modal").addEventListener("click", closeAutoToolModal);
 
     // ================= ฟังก์ชันหลักของเกม =================
     function randomizeShop() {
@@ -1118,6 +1210,29 @@
               hasBag = true;
           } else {
               if(bagItem) bagItem.classList.add("hidden");
+          }
+          
+          const stCount = specialInventoryFishingTools[k];
+          const specialBagItem = document.getElementById(`special-bag-ftool-item-${k}`);
+          if(stCount > 0) {
+              if(specialBagItem) specialBagItem.classList.remove("hidden");
+              document.getElementById(`special-ftool-${k}-count`).textContent = stCount;
+              hasSpecialBag = true;
+          } else {
+              if(specialBagItem) specialBagItem.classList.add("hidden");
+          }
+
+          const specialCraftBtn = document.getElementById(`craft-special-ftool-btn-${k}`);
+          if(specialCraftBtn) {
+              const canCraftSpecial = count >= 100;
+              specialCraftBtn.disabled = !canCraftSpecial;
+              if(canCraftSpecial) {
+                  specialCraftBtn.classList.remove("bg-gray-200", "text-gray-400", "cursor-not-allowed");
+                  specialCraftBtn.classList.add("bg-blue-500", "text-white");
+              } else {
+                  specialCraftBtn.classList.add("bg-gray-200", "text-gray-400", "cursor-not-allowed");
+                  specialCraftBtn.classList.remove("bg-blue-500", "text-white");
+              }
           }
       });
 
@@ -1372,6 +1487,7 @@
       
       updateAutoPlotUI();
       updateAutoResourceUI();
+      updateAutoFishingUI();
     }
 
     function updateAutoPlotUI() {
@@ -1456,6 +1572,46 @@
         }
         lucide.createIcons();
     }
+
+    function updateAutoFishingUI() {
+        const container = document.getElementById("auto-fishing-ui");
+        if (!container) return;
+        if (!autoFishing.unlocked) {
+            container.innerHTML = `
+              <button onclick="unlockAutoFishing()" class="w-full py-5 rounded-xl border-2 border-dashed border-blue-600/40 text-blue-700 font-bold flex flex-col items-center gap-2 hover:bg-blue-50 transition">
+                <i data-lucide="lock" width="28" height="28"></i>
+                ซื้อหุ่นยนต์และปลดล็อกบ่ออัตโนมัติ (${AUTO_FISHING_PRICE.toLocaleString()} ฿)
+              </button>
+            `;
+        } else if (!autoFishing.activeRod || !autoFishing.activeBait) {
+            container.innerHTML = `
+              <button onclick="openAutoFishingModal()" class="w-full py-5 rounded-xl border-2 border-dashed border-blue-500 bg-white text-blue-600 font-bold flex flex-col items-center gap-2 hover:bg-blue-50 transition shadow-sm">
+                <span class="text-4xl drop-shadow-sm mb-1">➕</span>
+                กดเพื่อติดตั้ง "เบ็ดและเหยื่อพิเศษ"
+              </button>
+            `;
+        } else {
+            container.innerHTML = `
+              <div class="flex-1 w-full bg-white rounded-xl p-4 shadow-sm flex items-center gap-4 border border-blue-200">
+                <span class="text-5xl drop-shadow-md animate-bounce" style="animation-duration: 2s;">🐟</span>
+                <div class="flex-1">
+                  <p class="font-bold text-blue-800 text-lg mb-1 flex items-center gap-2">
+                     <i data-lucide="cog" width="16" height="16" class="animate-spin text-gray-400"></i>
+                     กำลังตกปลาอัตโนมัติ
+                  </p>
+                  <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden relative shadow-inner">
+                    <div id="auto-fishing-progress" class="h-full bg-blue-500 w-0 transition-all duration-150"></div>
+                  </div>
+                  <p class="text-[11px] text-gray-500 mt-1.5 font-medium">ได้ปลาในอีก: <span id="auto-fishing-timer" class="font-bold text-blue-600">60s</span></p>
+                </div>
+              </div>
+              <button onclick="cancelAutoFishing()" class="w-full sm:w-auto shrink-0 px-5 py-4 rounded-xl bg-white border border-gray-200 text-red-600 font-bold hover:bg-red-50 shadow-sm transition flex items-center justify-center gap-2">
+                <i data-lucide="power-off" width="18" height="18"></i> ถอดอุปกรณ์
+              </button>
+            `;
+        }
+        lucide.createIcons();
+    }
     
     function unlockAutoPlot() {
         if (money >= AUTO_PLOT_PRICE) {
@@ -1473,6 +1629,17 @@
             updateUI();
             saveGame();
         } 
+    }
+
+    function unlockAutoFishing() {
+        if (money >= AUTO_FISHING_PRICE) {
+            money -= AUTO_FISHING_PRICE;
+            autoFishing.unlocked = true;
+            updateUI();
+            saveGame();
+        } else {
+            alert(`เงินไม่พอ! ต้องใช้ ${AUTO_FISHING_PRICE.toLocaleString()} บาทในการปลดล็อก`);
+        }
     }
 
     function buySeed(type) {
@@ -1598,6 +1765,15 @@
         }
     }
 
+    function craftSpecialFishingTool(type) {
+        if (inventoryFishingTools[type] >= 100) {
+            inventoryFishingTools[type] -= 100;
+            specialInventoryFishingTools[type] += 1;
+            updateUI();
+            saveGame();
+        }
+    }
+
     function openSeedModal(index) {
         targetPlotIndex = index;
         updateUI(); 
@@ -1671,6 +1847,52 @@
         closeAutoToolModal();
         updateUI();
         saveGame();
+    }
+
+    function openAutoFishingModal() {
+        updateUI();
+        const rodCount = specialInventoryFishingTools.fishing_rod;
+        const baitCount = specialInventoryFishingTools.fish_bait;
+        document.getElementById('modal-special-rod-count').textContent = `มี: ${rodCount}`;
+        document.getElementById('modal-special-bait-count').textContent = `มี: ${baitCount}`;
+        
+        const btn = document.getElementById('equip-auto-fishing-btn');
+        if(rodCount >= 1 && baitCount >= 1) {
+            btn.disabled = false;
+            btn.classList.remove("opacity-50", "cursor-not-allowed");
+        } else {
+            btn.disabled = true;
+            btn.classList.add("opacity-50", "cursor-not-allowed");
+        }
+        document.getElementById('auto-fishing-modal').classList.remove('hidden');
+    }
+
+    function closeAutoFishingModal() {
+        document.getElementById('auto-fishing-modal').classList.add('hidden');
+    }
+
+    function confirmAutoFishing() {
+        if(specialInventoryFishingTools.fishing_rod >= 1 && specialInventoryFishingTools.fish_bait >= 1) {
+            specialInventoryFishingTools.fishing_rod -= 1;
+            specialInventoryFishingTools.fish_bait -= 1;
+            autoFishing.activeRod = true;
+            autoFishing.activeBait = true;
+            autoFishing.lastUpdate = Date.now();
+            closeAutoFishingModal();
+            updateUI();
+            saveGame();
+        }
+    }
+
+    function cancelAutoFishing() {
+        if(autoFishing.activeRod && autoFishing.activeBait) {
+            specialInventoryFishingTools.fishing_rod += 1;
+            specialInventoryFishingTools.fish_bait += 1;
+            autoFishing.activeRod = false;
+            autoFishing.activeBait = false;
+            updateUI();
+            saveGame();
+        }
     }
 
     function harvestCrop(index) {
@@ -1869,6 +2091,38 @@
           }
       }
 
+      if (autoFishing.unlocked && autoFishing.activeRod && autoFishing.activeBait) {
+          let elapsed = now - autoFishing.lastUpdate;
+          if (elapsed >= 60000) {
+              let cycles = Math.floor(elapsed / 60000);
+              
+              for(let c = 0; c < cycles; c++) {
+                  let roll = Math.floor(Math.random() * 1000) + 1;
+                  let currentWeight = 0;
+                  for (let k in fishesData) {
+                      currentWeight += fishesData[k].prob;
+                      if (roll <= currentWeight) {
+                          inventoryFishes[k]++;
+                          break;
+                      }
+                  }
+              }
+              
+              autoFishing.lastUpdate += cycles * 60000;
+              saveGame();
+              updateUI(); 
+          }
+          
+          let prog = document.getElementById("auto-fishing-progress");
+          let tim = document.getElementById("auto-fishing-timer");
+          if (prog && tim) {
+              let currentElapsed = now - autoFishing.lastUpdate;
+              let percent = (currentElapsed / 60000) * 100;
+              prog.style.width = percent + "%";
+              tim.textContent = Math.ceil((60000 - currentElapsed)/1000) + "s";
+          }
+      }
+
       let craftedSomething = false;
       Object.keys(activeCrafts).forEach(recipeId => {
           const finishTime = activeCrafts[recipeId];
@@ -1908,11 +2162,13 @@
       activeCrafts = {};
       autoPlot = { unlocked: false, activeSeed: null, lastUpdate: 0 };
       autoResource = { unlocked: false, activeTool: null, lastUpdate: 0 };
+      autoFishing = { unlocked: false, activeRod: false, activeBait: false, lastUpdate: 0 };
       
       inventoryTools = { axe: 0, pickaxe: 0, heavy_pickaxe: 0 };
       specialInventoryTools = { axe: 0, pickaxe: 0, heavy_pickaxe: 0 };
       inventoryResources = { wood: 0, stone: 0, iron: 0 };
       inventoryFishingTools = { fishing_rod: 0, fish_bait: 0 };
+      specialInventoryFishingTools = { fishing_rod: 0, fish_bait: 0 };
 
       Object.keys(crops).forEach(k => {
           inventory[k] = 0;
@@ -1963,8 +2219,10 @@
         shopToolStock: shopToolStock,
         autoResource: autoResource,
         inventoryFishingTools: inventoryFishingTools,
+        specialInventoryFishingTools: specialInventoryFishingTools,
         shopFishingToolStock: shopFishingToolStock,
-        inventoryFishes: inventoryFishes
+        inventoryFishes: inventoryFishes,
+        autoFishing: autoFishing
       };
       localStorage.setItem('tinyFarmSave', JSON.stringify(gameData));
     }
@@ -1984,7 +2242,9 @@
         autoResource = data.autoResource || { unlocked: false, activeTool: null, lastUpdate: 0 };
 
         inventoryFishingTools = data.inventoryFishingTools || { fishing_rod: 0, fish_bait: 0 };
+        specialInventoryFishingTools = data.specialInventoryFishingTools || { fishing_rod: 0, fish_bait: 0 };
         shopFishingToolStock = data.shopFishingToolStock || { fishing_rod: 5, fish_bait: 10 };
+        autoFishing = data.autoFishing || { unlocked: false, activeRod: false, activeBait: false, lastUpdate: 0 };
         
         Object.keys(fishesData).forEach(k => {
             inventoryFishes[k] = data.inventoryFishes?.[k] || 0;
@@ -2064,6 +2324,38 @@
                 inventoryResources[targetRes] += total;
                 
                 autoResource.lastUpdate += cycles * 10000; 
+            }
+        }
+
+        if (autoFishing.unlocked && autoFishing.activeRod && autoFishing.activeBait && autoFishing.lastUpdate > 0) {
+            let elapsed = now - autoFishing.lastUpdate;
+            if (elapsed > maxOffline) elapsed = maxOffline;
+            
+            let actualOffline = Math.max(0, elapsed);
+            let cycles = Math.floor(actualOffline / 60000);
+            if (cycles > 0) {
+                let totalFishes = 0;
+                for(let c = 0; c < cycles; c++) {
+                    let roll = Math.floor(Math.random() * 1000) + 1;
+                    let currentWeight = 0;
+                    for (let k in fishesData) {
+                        currentWeight += fishesData[k].prob;
+                        if (roll <= currentWeight) {
+                            inventoryFishes[k]++;
+                            totalFishes++;
+                            break;
+                        }
+                    }
+                }
+                
+                autoFishing.lastUpdate += cycles * 60000; 
+                
+                if (cycles > 1) { 
+                    setTimeout(() => {
+                       alert(`ยินดีต้อนรับกลับ! 🤖 บ่อตกปลาอัตโนมัติได้ตกปลาไป ${totalFishes.toLocaleString()} ตัว ขณะที่คุณออฟไลน์`);
+                       updateUI(); 
+                    }, 500);
+                }
             }
         }
       }
