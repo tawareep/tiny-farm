@@ -8,11 +8,11 @@
   <title>เกมปลูกผักจิ๋ว</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,700;9..144,800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --ink: #18352a;
-      --paper: #fff9e9;
+      --paper: #ffffff;
       --leaf: #3d7a4b;
       --soil: #70442d;
       --clay: #df7343;
@@ -24,7 +24,7 @@
       width: 100%;
       margin: 0;
       color: var(--ink);
-      font-family: "DM Sans", sans-serif;
+      font-family: "Noto Sans Thai", sans-serif;
       overflow-x: hidden;
       background-color: #fcfbf7;
     }
@@ -70,7 +70,7 @@
       z-index: 1;
     }
 
-    .headline-font { font-family: "Fraunces", serif; }
+    .headline-font { font-family: "Noto Sans Thai", sans-serif; }
 
     .game-card {
       border: 2px solid rgba(24, 53, 42, .1);
@@ -215,6 +215,7 @@
   <div class="farm-shell">
    <div class="farm-content">
     
+    <!-- ส่วนหัวเกม (แสดงเสมอ) -->
     <header class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between reveal">
      <div>
       <div class="flex items-center gap-2 mb-2">
@@ -224,7 +225,7 @@
        <p class="canva-text text-sm font-bold tracking-[0.16em] uppercase">ฟาร์มจำลอง</p>
       </div>
       <h1 class="canva-text headline-font font-extrabold leading-tight text-4xl">เกมปลูกผักจิ๋ว</h1>
-      <p class="canva-text mt-2 max-w-xl leading-relaxed">ปลูกผัก แปรรูป หาแร่ และสร้างระบบฟาร์มอัตโนมัติ!</p>
+      <p class="canva-text mt-2 max-w-xl leading-relaxed">ปลูกผัก ตกปลา ขุดแร่ แปรรูป และสร้างระบบฟาร์มอัตโนมัติ!</p>
      </div>
      <section class="canva-card game-card rounded-[1.35rem] px-6 py-4 flex items-center gap-4 self-start md:self-auto bg-white">
       <span class="h-12 w-12 rounded-2xl bg-[#f8c74e] text-[#18352a] flex items-center justify-center"> 
@@ -239,33 +240,44 @@
     
     <main class="mt-8 relative">
      
+     <!-- ===================== Navigation Bar ===================== -->
+     <nav class="flex flex-col xl:flex-row gap-4 mb-6 fade-in">
+        <!-- โซนสถานที่ -->
+        <div class="flex flex-wrap items-center gap-2 p-2 bg-white rounded-2xl shadow-sm border border-gray-100 w-full xl:w-auto">
+          <button id="nav-farm" class="nav-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 h-12 font-bold transition-all shadow-md transform scale-105 bg-[#18352a] text-white">
+            <i data-lucide="tractor" width="18" height="18"></i> <span>แปลงผัก</span>
+          </button>
+          <button id="nav-resource" class="nav-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 h-12 font-bold transition-all bg-gray-50 text-gray-500 hover:bg-gray-200">
+            <i data-lucide="trees" width="18" height="18"></i> <span>ป่า/เหมืองแร่</span>
+          </button>
+          <button id="nav-fishing" class="nav-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 h-12 font-bold transition-all bg-gray-50 text-gray-500 hover:bg-gray-200">
+            <i data-lucide="waves" width="18" height="18"></i> <span>ตกปลา</span>
+          </button>
+        </div>
+
+        <!-- โซนการจัดการ -->
+        <div class="flex flex-wrap items-center gap-2 p-2 bg-white rounded-2xl shadow-sm border border-gray-100 w-full xl:w-auto">
+          <button id="nav-shop" class="nav-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 h-12 font-bold transition-all bg-gray-50 text-gray-500 hover:bg-gray-200">
+            <i data-lucide="store" width="18" height="18"></i> <span>ร้านค้า</span>
+          </button>
+          <button id="nav-craft" class="nav-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 h-12 font-bold transition-all bg-gray-50 text-gray-500 hover:bg-gray-200">
+            <i data-lucide="chef-hat" width="18" height="18"></i> <span>แปรรูป</span>
+          </button>
+          <button id="nav-inventory" class="nav-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 h-12 font-bold transition-all bg-gray-50 text-gray-500 hover:bg-gray-200">
+            <i data-lucide="backpack" width="18" height="18"></i> <span>กระเป๋า/โกดัง</span>
+          </button>
+        </div>
+     </nav>
+
      <!-- ===================== หน้าแปลงผัก (Farm View) ===================== -->
      <div id="farm-view" class="fade-in">
-       <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 bg-[#fff9e9] flex flex-col min-h-[500px]">
+       <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 bg-white flex flex-col min-h-[500px]">
         
-        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 border-b border-[#e9e1c8] pb-5 mb-6">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-gray-100 pb-5 mb-6">
          <div>
           <p class="canva-text text-xs uppercase tracking-[.16em] font-bold text-[#70442d]">พื้นที่ของคุณ</p>
           <h2 class="canva-text headline-font font-bold mt-1 text-2xl">แปลงเกษตร</h2>
           <p class="canva-text text-sm mt-2 max-w-xs text-gray-600">กดที่แปลงว่างเพื่อปลูก หรือกดที่แม่กุญแจเพื่อปลดล็อกแปลง</p>
-         </div>
-         <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-          <button type="button" id="go-to-shop" class="canva-button flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-[#df7343] text-white px-4 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
-           <i data-lucide="store" width="18" height="18"></i> 
-           <span class="text-sm">ร้านค้า</span>
-          </button>
-          <button type="button" id="go-to-craft" class="canva-button flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-[#eab308] text-white px-4 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
-           <i data-lucide="chef-hat" width="18" height="18"></i> 
-           <span class="text-sm">แปรรูปอุปกรณ์</span>
-          </button>
-          <button type="button" id="go-to-resource" class="canva-button flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-[#0f766e] text-white px-4 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
-           <i data-lucide="pickaxe" width="18" height="18"></i> 
-           <span class="text-sm">ป่า/เหมืองแร่</span>
-          </button>
-          <button type="button" id="go-to-inventory" class="canva-button flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-[#3d7a4b] text-white px-4 py-2 h-12 font-bold transition-transform hover:-translate-y-0.5 shadow-md"> 
-           <i data-lucide="backpack" width="18" height="18"></i> 
-           <span class="text-sm">กระเป๋า/โกดัง</span>
-          </button>
          </div>
         </div>
 
@@ -285,7 +297,7 @@
           <!-- สร้างด้วย JS -->
         </div>
         
-        <div class="mt-8 flex justify-end border-t border-[#e9e1c8] pt-5">
+        <div class="mt-8 flex justify-end border-t border-gray-100 pt-5">
          <button type="button" id="reset-game" class="canva-button inline-flex items-center gap-2 rounded-xl bg-red-100 text-red-700 px-4 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
           <i data-lucide="rotate-ccw" width="18" height="18"></i> 
           <span>เริ่มเกมใหม่</span>
@@ -298,15 +310,12 @@
      <div id="resource-view" class="hidden fade-in space-y-6">
        <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 md:p-8 bg-white min-h-[500px]">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
-         <div class="flex items-center gap-3 mt-1">
-          <span class="text-white bg-[#0f766e] p-2 rounded-full"><i data-lucide="trees" width="28" height="28"></i></span>
-          <h2 class="canva-text headline-font font-bold text-3xl">ป่าและเหมืองแร่</h2>
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-gray-100 pb-5 mb-6">
+         <div>
+          <p class="canva-text text-xs uppercase tracking-[.16em] font-bold text-[#0f766e]">ออกสำรวจ</p>
+          <h2 class="canva-text headline-font font-bold mt-1 text-2xl">ป่าและเหมืองแร่</h2>
+          <p class="canva-text text-sm mt-2 max-w-xs text-gray-600">ซื้ออุปกรณ์จากร้านค้าเพื่อเก็บเกี่ยว (1 อุปกรณ์ ต่อ 1 ครั้ง)</p>
          </div>
-         <button type="button" class="go-to-farm-btn canva-button inline-flex items-center gap-2 rounded-xl bg-[#fff9e9] text-[#18352a] border-2 border-[#e9e1c8] px-5 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
-          <i data-lucide="arrow-left" width="20" height="20"></i> 
-          <span>กลับแปลงผัก</span>
-         </button>
         </div>
         
         <!-- ค่ายทรัพยากรอัตโนมัติ (Auto Resource Camp) -->
@@ -322,10 +331,8 @@
           </div>
         </div>
 
-        <p class="text-gray-600 mb-6">ซื้ออุปกรณ์จากร้านค้าเพื่อเก็บเกี่ยว (อุปกรณ์ 1 อัน ต่อการเก็บ 1 ครั้ง จะสุ่มได้ 1-3 ชิ้น)</p>
-
         <div class="grid sm:grid-cols-3 gap-6">
-           <button type="button" id="gather-btn-wood" onclick="gatherResource('wood')" class="canva-card rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border-2 border-[#166534]/20 bg-[#f0fdf4] hover:-translate-y-1 transition shadow-sm">
+           <button type="button" onclick="gatherResource('wood')" class="canva-card rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border-2 border-[#166534]/20 bg-[#f0fdf4] hover:-translate-y-1 transition shadow-sm">
               <span class="text-6xl drop-shadow-md">🌲</span>
               <h3 class="font-bold text-lg text-[#166534]">ต้นไม้ใหญ่</h3>
               <div class="bg-white rounded-lg px-3 py-1.5 shadow-sm border border-gray-100 flex items-center gap-2 text-sm">
@@ -334,7 +341,7 @@
               </div>
            </button>
            
-           <button type="button" id="gather-btn-stone" onclick="gatherResource('stone')" class="canva-card rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border-2 border-gray-300 bg-gray-50 hover:-translate-y-1 transition shadow-sm">
+           <button type="button" onclick="gatherResource('stone')" class="canva-card rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border-2 border-gray-300 bg-gray-50 hover:-translate-y-1 transition shadow-sm">
               <span class="text-6xl drop-shadow-md">🪨</span>
               <h3 class="font-bold text-lg text-gray-700">กองหิน</h3>
               <div class="bg-white rounded-lg px-3 py-1.5 shadow-sm border border-gray-100 flex items-center gap-2 text-sm">
@@ -343,7 +350,7 @@
               </div>
            </button>
            
-           <button type="button" id="gather-btn-iron" onclick="gatherResource('iron')" class="canva-card rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border-2 border-blue-200 bg-blue-50 hover:-translate-y-1 transition shadow-sm">
+           <button type="button" onclick="gatherResource('iron')" class="canva-card rounded-2xl p-6 flex flex-col items-center justify-center gap-3 border-2 border-blue-200 bg-blue-50 hover:-translate-y-1 transition shadow-sm">
               <span class="text-6xl drop-shadow-md">💎</span>
               <h3 class="font-bold text-lg text-blue-800">เหมืองแร่เหล็ก</h3>
               <div class="bg-white rounded-lg px-3 py-1.5 shadow-sm border border-gray-100 flex items-center gap-2 text-sm">
@@ -356,19 +363,51 @@
        </section>
      </div>
 
+     <!-- ===================== หน้าตกปลา (Fishing View) ===================== -->
+     <div id="fishing-view" class="hidden fade-in space-y-6">
+       <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 md:p-8 bg-white min-h-[500px]">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-gray-100 pb-5 mb-6">
+         <div>
+          <p class="canva-text text-xs uppercase tracking-[.16em] font-bold text-blue-600">แหล่งน้ำ</p>
+          <h2 class="canva-text headline-font font-bold mt-1 text-2xl">บ่อตกปลา</h2>
+          <p class="canva-text text-sm mt-2 max-w-xs text-gray-600">ใช้เบ็ด 1 อัน และ เหยื่อ 1 อันต่อการตกปลา 1 ครั้ง (สุ่มได้ปลา 10 ชนิด)</p>
+         </div>
+        </div>
+
+        <div class="flex flex-col items-center justify-center p-10 bg-gradient-to-b from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-[2rem] mt-4 relative overflow-hidden shadow-inner">
+            <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 50% 50%, #60a5fa 2px, transparent 2px); background-size: 20px 20px;"></div>
+            
+            <span class="text-8xl drop-shadow-lg mb-6 z-10 animate-bounce" style="animation-duration: 3s;">🌊</span>
+            
+            <button type="button" onclick="catchFish()" class="z-10 canva-button inline-flex items-center gap-2 rounded-2xl bg-blue-500 text-white px-8 py-4 text-xl font-bold transition-transform hover:-translate-y-1 shadow-lg hover:shadow-blue-500/30">
+                <i data-lucide="fish" width="24" height="24"></i>
+                <span>หย่อนเบ็ดตกปลา!</span>
+            </button>
+            
+            <div id="fishing-msg" class="z-10 mt-4 text-lg font-bold min-h-[28px] text-blue-800 transition-opacity duration-300 opacity-0 pointer-events-none text-center"></div>
+
+            <div class="z-10 bg-white rounded-xl px-5 py-3 shadow-md border border-blue-100 flex items-center gap-6 mt-4 text-sm">
+                <span class="flex items-center gap-2">
+                    <span class="text-xl">🎣</span> เบ็ด: <span class="font-bold text-blue-700 text-base" id="fish-rod-count">0</span>
+                </span>
+                <span class="w-px h-6 bg-gray-200"></span>
+                <span class="flex items-center gap-2">
+                    <span class="text-xl">🪱</span> เหยื่อ: <span class="font-bold text-orange-700 text-base" id="fish-bait-count">0</span>
+                </span>
+            </div>
+        </div>
+       </section>
+     </div>
+
      <!-- ===================== หน้ากระเป๋าและโกดัง (Inventory View) ===================== -->
      <div id="inventory-view" class="hidden fade-in space-y-6">
        <section class="canva-panel game-card rounded-[1.65rem] p-5 sm:p-7 md:p-8 bg-white min-h-[500px]">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
-         <div class="flex items-center gap-3 mt-1">
-          <span class="text-[#3d7a4b] bg-green-50 p-2 rounded-full"><i data-lucide="backpack" width="28" height="28"></i></span>
-          <h2 class="canva-text headline-font font-bold text-3xl">โกดังเก็บของ</h2>
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-gray-100 pb-5 mb-6">
+         <div>
+          <p class="canva-text text-xs uppercase tracking-[.16em] font-bold text-[#3d7a4b]">คลังสมบัติ</p>
+          <h2 class="canva-text headline-font font-bold mt-1 text-2xl">กระเป๋าและโกดัง</h2>
          </div>
-         <button type="button" class="go-to-farm-btn canva-button inline-flex items-center gap-2 rounded-xl bg-[#fff9e9] text-[#18352a] border-2 border-[#e9e1c8] px-5 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
-          <i data-lucide="arrow-left" width="20" height="20"></i> 
-          <span>กลับแปลงผัก</span>
-         </button>
         </div>
 
         <div class="grid gap-8 md:grid-cols-2">
@@ -390,10 +429,22 @@
                <i data-lucide="wheat" width="20" height="20"></i> 
               </span>
               <div>
-               <h2 class="canva-text headline-font font-bold text-lg">ผลผลิตและทรัพยากร</h2>
+               <h2 class="canva-text headline-font font-bold text-lg">ผลผลิตและทรัพยากรป่า</h2>
               </div>
             </div>
             <div id="storage-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll border-b border-gray-100 pb-4"></div>
+          </div>
+          
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <span class="h-10 w-10 rounded-xl bg-blue-500 text-white flex items-center justify-center"> 
+               <i data-lucide="fish" width="20" height="20"></i> 
+              </span>
+              <div>
+               <h2 class="canva-text headline-font font-bold text-lg">สัตว์น้ำ (ตกปลา)</h2>
+              </div>
+            </div>
+            <div id="fish-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll border-b border-gray-100 pb-4"></div>
           </div>
           
           <div>
@@ -408,7 +459,7 @@
             <div id="crafted-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll border-b border-gray-100 md:border-b-0 pb-4 md:pb-0"></div>
           </div>
           
-          <div>
+          <div class="md:col-span-2">
             <div class="flex items-center gap-3 mb-4">
               <span class="h-10 w-10 rounded-xl bg-[#8b5cf6] text-white flex items-center justify-center"> 
                <i data-lucide="sparkles" width="20" height="20"></i> 
@@ -417,7 +468,7 @@
                <h2 class="canva-text headline-font font-bold text-lg">ไอเทมพิเศษ</h2>
               </div>
             </div>
-            <div id="special-bag-list" class="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll"></div>
+            <div id="special-bag-list" class="grid grid-cols-4 sm:grid-cols-8 gap-3 max-h-[250px] overflow-y-auto pr-2 custom-scroll"></div>
           </div>
         </div>
 
@@ -431,18 +482,14 @@
        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
         <div>
          <p id="shop-timer-text" class="canva-text text-sm tracking-[.05em] font-bold text-[#df7343]">กำลังเตรียมสินค้า...</p>
-         <div class="flex items-center gap-3 mt-1">
-          <span class="text-[#3d7a4b] bg-green-50 p-2 rounded-full"><i data-lucide="shopping-basket" width="28" height="28"></i></span>
-          <h2 class="canva-text headline-font font-bold text-3xl">ร้านค้าทั้งหมด</h2>
-         </div>
+         <h2 class="canva-text headline-font font-bold mt-1 text-2xl">ร้านค้าทั้งหมด</h2>
         </div>
-        <button type="button" class="go-to-farm-btn canva-button inline-flex items-center gap-2 rounded-xl bg-[#fff9e9] text-[#18352a] border-2 border-[#e9e1c8] px-5 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
-         <i data-lucide="arrow-left" width="20" height="20"></i> 
-         <span>กลับแปลงผัก</span>
-        </button>
        </div>
        
-       <h3 class="font-bold text-xl text-gray-700 mb-3 border-l-4 border-[#0f766e] pl-3">เครื่องมือ (Tools)</h3>
+       <h3 class="font-bold text-xl text-gray-700 mb-3 border-l-4 border-blue-500 pl-3">อุปกรณ์ตกปลา (Fishing)</h3>
+       <div id="shop-fishing-tool-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 lg:gap-4 mb-8"></div>
+
+       <h3 class="font-bold text-xl text-gray-700 mb-3 border-l-4 border-[#0f766e] pl-3">อุปกรณ์ป่าและเหมือง (Tools)</h3>
        <div id="shop-tool-list" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 lg:gap-4 mb-8"></div>
 
        <h3 class="font-bold text-xl text-gray-700 mb-3 border-l-4 border-[#df7343] pl-3">เมล็ดพันธุ์ (Seeds)</h3>
@@ -456,16 +503,9 @@
        
        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-gray-100">
         <div>
-         <p class="canva-text text-sm tracking-[.05em] font-bold text-[#eab308]">เพิ่มมูลค่าให้ผลผลิตและอัปเกรด</p>
-         <div class="flex items-center gap-3 mt-1">
-          <span class="text-[#eab308] bg-yellow-50 p-2 rounded-full"><i data-lucide="chef-hat" width="28" height="28"></i></span>
-          <h2 class="canva-text headline-font font-bold text-3xl">โรงแปรรูปสินค้า</h2>
-         </div>
+         <p class="canva-text text-sm tracking-[.05em] font-bold text-[#eab308]">เพิ่มมูลค่าและสร้างไอเทมพิเศษ</p>
+         <h2 class="canva-text headline-font font-bold mt-1 text-2xl">โรงแปรรูปสินค้า</h2>
         </div>
-        <button type="button" class="go-to-farm-btn canva-button inline-flex items-center gap-2 rounded-xl bg-[#fff9e9] text-[#18352a] border-2 border-[#e9e1c8] px-5 py-3 font-bold transition-transform hover:-translate-y-0.5 shadow-sm"> 
-         <i data-lucide="arrow-left" width="20" height="20"></i> 
-         <span>กลับแปลงผัก</span>
-        </button>
        </div>
 
        <div id="recipe-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2 mb-8 max-h-[400px] overflow-y-auto pr-2 custom-scroll">
@@ -475,11 +515,8 @@
        <div class="border-t border-gray-100 pt-8">
         <div class="mb-4">
          <p class="canva-text text-sm tracking-[.05em] font-bold text-[#8b5cf6]">เทคโนโลยีแห่งอนาคต (ฟาร์ม)</p>
-         <div class="flex items-center gap-3 mt-1 mb-2">
-          <span class="text-[#8b5cf6] bg-purple-50 p-2 rounded-full"><i data-lucide="sparkles" width="24" height="24"></i></span>
-          <h2 class="canva-text headline-font font-bold text-2xl">สร้างเมล็ดพิเศษ</h2>
-         </div>
-         <p class="text-sm text-gray-500">ใช้เมล็ดธรรมดา <span class="font-bold text-[#18352a]">100 อัน</span> เพื่อสร้าง 1 อัน สำหรับปลูกใน <span class="font-bold text-[#166534]">แปลงอัตโนมัติ</span></p>
+         <h2 class="canva-text headline-font font-bold mt-1 mb-2 text-2xl">สร้างเมล็ดพิเศษ</h2>
+         <p class="text-sm text-gray-500">ใช้เมล็ดธรรมดา <span class="font-bold text-[#18352a]">100 อัน</span> เพื่อสร้างเมล็ดพิเศษ 1 อัน สำหรับปลูกใน <span class="font-bold text-[#166534]">แปลงอัตโนมัติ</span></p>
         </div>
         <div id="special-seed-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto pr-2 custom-scroll pb-8">
          <!-- เมล็ดพิเศษจะถูกสร้างด้วย Javascript -->
@@ -489,11 +526,8 @@
        <div class="border-t border-gray-100 pt-8">
         <div class="mb-4">
          <p class="canva-text text-sm tracking-[.05em] font-bold text-[#0f766e]">เทคโนโลยีแห่งอนาคต (ป่าและเหมือง)</p>
-         <div class="flex items-center gap-3 mt-1 mb-2">
-          <span class="text-[#0f766e] bg-teal-50 p-2 rounded-full"><i data-lucide="hammer" width="24" height="24"></i></span>
-          <h2 class="canva-text headline-font font-bold text-2xl">สร้างอุปกรณ์พิเศษ</h2>
-         </div>
-         <p class="text-sm text-gray-500">ใช้อุปกรณ์ธรรมดา <span class="font-bold text-[#18352a]">100 อัน</span> เพื่อสร้าง 1 อัน สำหรับใช้ใน <span class="font-bold text-[#0f766e]">ค่ายทรัพยากรอัตโนมัติ</span></p>
+         <h2 class="canva-text headline-font font-bold mt-1 mb-2 text-2xl">สร้างอุปกรณ์พิเศษ</h2>
+         <p class="text-sm text-gray-500">ใช้อุปกรณ์ธรรมดา <span class="font-bold text-[#18352a]">100 อัน</span> เพื่อสร้างอุปกรณ์พิเศษ 1 อัน สำหรับใช้ใน <span class="font-bold text-[#0f766e]">ค่ายทรัพยากรอัตโนมัติ</span></p>
         </div>
         <div id="special-tool-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto pr-2 custom-scroll pb-4">
          <!-- อุปกรณ์พิเศษจะถูกสร้างด้วย Javascript -->
@@ -507,8 +541,8 @@
     
     <!-- ===================== Modals ===================== -->
     <div id="seed-modal" class="hidden fixed inset-0 bg-[#18352a]/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm fade-in">
-        <div class="bg-[#fcfbf7] border-4 border-[#e9e1c8] rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
-            <div class="flex justify-between items-center mb-5 pb-3 border-b border-[#e9e1c8]">
+        <div class="bg-white border-4 border-gray-100 rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-gray-100">
                 <div>
                   <h3 class="headline-font font-bold text-2xl text-[#70442d]">กระเป๋าเมล็ดพันธุ์</h3>
                   <p class="text-xs text-gray-500 mt-1">กดที่เมล็ดเพื่อปลูกลงแปลงปกติ</p>
@@ -522,7 +556,7 @@
     </div>
     
     <div id="auto-seed-modal" class="hidden fixed inset-0 bg-[#166534]/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm fade-in">
-        <div class="bg-[#fcfbf7] border-4 border-[#bbf7d0] rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
+        <div class="bg-white border-4 border-[#bbf7d0] rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
             <div class="flex justify-between items-center mb-5 pb-3 border-b border-[#bbf7d0]">
                 <div>
                   <h3 class="headline-font font-bold text-2xl text-[#166534]">เลือกเมล็ดพิเศษ</h3>
@@ -537,7 +571,7 @@
     </div>
 
     <div id="auto-tool-modal" class="hidden fixed inset-0 bg-[#0f766e]/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm fade-in">
-        <div class="bg-[#fcfbf7] border-4 border-[#99f6e4] rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
+        <div class="bg-white border-4 border-[#99f6e4] rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
             <div class="flex justify-between items-center mb-5 pb-3 border-b border-[#99f6e4]">
                 <div>
                   <h3 class="headline-font font-bold text-2xl text-[#0f766e]">เลือกอุปกรณ์พิเศษ</h3>
@@ -586,11 +620,29 @@
         pickaxe: { name: "ที่ขุดหิน", emoji: "⛏️", price: 15, target: "stone" },
         heavy_pickaxe: { name: "ที่ขุดเหล็ก", emoji: "⚒️", price: 30, target: "iron" }
     };
+
+    const fishingToolsData = {
+        fishing_rod: { name: "เบ็ดตกปลา", emoji: "🎣", price: 25 },
+        fish_bait: { name: "เหยื่อตกปลา", emoji: "🪱", price: 5 }
+    };
     
     const resourceData = {
-        wood: { name: "ไม้", emoji: "🪵", sell: 5 },
-        stone: { name: "หิน", emoji: "🪨", sell: 8 },
-        iron: { name: "แร่เหล็ก", emoji: "💎", sell: 15 }
+        wood: { name: "ไม้", emoji: "🪵", sell: 4 },
+        stone: { name: "หิน", emoji: "🪨", sell: 6 },
+        iron: { name: "แร่เหล็ก", emoji: "💎", sell: 12 }
+    };
+
+    const fishesData = {
+        fish_1: { name: "ปลาซิว", emoji: "🐟", sell: 15, prob: 400 },
+        fish_2: { name: "ปลาทู", emoji: "🐟", sell: 30, prob: 250 },
+        fish_3: { name: "ปลานิล", emoji: "🐠", sell: 50, prob: 150 },
+        fish_4: { name: "ปลาหมอ", emoji: "🐡", sell: 80, prob: 80 },
+        fish_5: { name: "ปลาดุก", emoji: "🐟", sell: 120, prob: 50 },
+        fish_6: { name: "ปลาช่อน", emoji: "🐟", sell: 200, prob: 30 },
+        fish_7: { name: "ปลากะพง", emoji: "🐠", sell: 350, prob: 20 },
+        fish_8: { name: "ปลาหมึก", emoji: "🦑", sell: 600, prob: 10 },
+        fish_9: { name: "ฉลาม", emoji: "🦈", sell: 1500, prob: 8 },
+        fish_10: { name: "วาฬทองคำ", emoji: "🐳", sell: 5000, prob: 2 }
     };
 
     const recipes = {
@@ -627,6 +679,12 @@
     let shopToolStock = { axe: 5, pickaxe: 5, heavy_pickaxe: 5 }; 
     let autoResource = { unlocked: false, activeTool: null, lastUpdate: 0 };
 
+    let inventoryFishingTools = { fishing_rod: 0, fish_bait: 0 };
+    let shopFishingToolStock = { fishing_rod: 5, fish_bait: 10 };
+    let inventoryFishes = {};
+
+    let fishingMsgTimeout;
+
     Object.keys(crops).forEach(k => {
         inventory[k] = 0;
         specialInventory[k] = 0;
@@ -638,13 +696,18 @@
     Object.keys(recipes).forEach(k => {
         craftedItems[k] = 0;
     });
+    Object.keys(fishesData).forEach(k => {
+        inventoryFishes[k] = 0;
+    });
 
     const moneyValue = document.getElementById("money-value");
     const shopList = document.getElementById("shop-list");
     const shopToolList = document.getElementById("shop-tool-list");
+    const shopFishingToolList = document.getElementById("shop-fishing-tool-list");
     const bagList = document.getElementById("bag-list");
     const specialBagList = document.getElementById("special-bag-list");
     const storageList = document.getElementById("storage-list");
+    const fishList = document.getElementById("fish-list");
     const craftedList = document.getElementById("crafted-list");
     const recipeList = document.getElementById("recipe-list");
     const specialSeedList = document.getElementById("special-seed-list");
@@ -656,43 +719,91 @@
     const autoSeedModal = document.getElementById("auto-seed-modal");
     const autoToolModal = document.getElementById("auto-tool-modal");
 
+    // ================= ระบบเปลี่ยนหน้าแบบใหม่ (Universal Nav) =================
     const farmView = document.getElementById('farm-view');
     const shopView = document.getElementById('shop-view');
     const inventoryView = document.getElementById('inventory-view');
     const craftView = document.getElementById('craft-view');
     const resourceView = document.getElementById('resource-view'); 
+    const fishingView = document.getElementById('fishing-view');
+
+    const navFarm = document.getElementById('nav-farm');
+    const navResource = document.getElementById('nav-resource');
+    const navFishing = document.getElementById('nav-fishing');
+    const navShop = document.getElementById('nav-shop');
+    const navCraft = document.getElementById('nav-craft');
+    const navInventory = document.getElementById('nav-inventory');
     
-    function showView(viewToShow) {
+    function showView(viewId) {
         farmView.classList.add('hidden');
         shopView.classList.add('hidden');
         inventoryView.classList.add('hidden');
         craftView.classList.add('hidden');
         resourceView.classList.add('hidden');
+        fishingView.classList.add('hidden');
         
-        viewToShow.classList.remove('hidden');
+        document.getElementById(viewId).classList.remove('hidden');
+
+        const buttons = [
+            { id: 'farm-view', btn: navFarm, activeClass: 'bg-[#18352a]', textClass: 'text-white' },
+            { id: 'resource-view', btn: navResource, activeClass: 'bg-[#0f766e]', textClass: 'text-white' },
+            { id: 'fishing-view', btn: navFishing, activeClass: 'bg-blue-500', textClass: 'text-white' },
+            { id: 'shop-view', btn: navShop, activeClass: 'bg-[#df7343]', textClass: 'text-white' },
+            { id: 'craft-view', btn: navCraft, activeClass: 'bg-[#eab308]', textClass: 'text-white' },
+            { id: 'inventory-view', btn: navInventory, activeClass: 'bg-[#3d7a4b]', textClass: 'text-white' }
+        ];
+
+        buttons.forEach(item => {
+            if (viewId === item.id) {
+                item.btn.className = `nav-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 h-12 font-bold transition-all shadow-md transform scale-105 ${item.activeClass} ${item.textClass}`;
+            } else {
+                item.btn.className = `nav-btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 h-12 font-bold transition-all bg-gray-50 text-gray-500 hover:bg-gray-200`;
+            }
+        });
+
         lucide.createIcons(); 
     }
 
-    document.getElementById('go-to-shop').addEventListener('click', () => showView(shopView));
-    document.getElementById('go-to-inventory').addEventListener('click', () => showView(inventoryView));
-    document.getElementById('go-to-craft').addEventListener('click', () => showView(craftView));
-    document.getElementById('go-to-resource').addEventListener('click', () => showView(resourceView));
-    
-    document.querySelectorAll('.go-to-farm-btn').forEach(btn => {
-        btn.addEventListener('click', () => showView(farmView));
-    });
+    navFarm.addEventListener('click', () => showView('farm-view'));
+    navResource.addEventListener('click', () => showView('resource-view'));
+    navFishing.addEventListener('click', () => showView('fishing-view'));
+    navShop.addEventListener('click', () => showView('shop-view'));
+    navCraft.addEventListener('click', () => showView('craft-view'));
+    navInventory.addEventListener('click', () => showView('inventory-view'));
 
-    // ================= สร้าง UI ฝั่ง HTML แบบซ่อนไว้ก่อน =================
+    // ================= สร้าง UI ฝั่ง HTML =================
     let shopHTML = '';
     let shopToolHTML = '';
+    let shopFishingToolHTML = '';
     let bagHTML = `<div id="bag-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">ยังไม่มีไอเทม (ซื้อได้ที่ร้านค้า)</div>`;
     let specialBagHTML = `<div id="special-bag-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">ยังไม่มีไอเทมพิเศษเลย (สร้างได้ที่โรงแปรรูป)</div>`;
     let storageHTML = `<div id="storage-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">ยังไม่มีผลผลิตหรือทรัพยากร</div>`;
+    let fishHTML = `<div id="fish-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">ยังไม่มีสัตว์น้ำเลย (ไปตกปลาได้ที่เมนูตกปลา)</div>`;
     let specialSeedCraftHTML = '';
     let specialToolCraftHTML = '';
     let modalSeedHTML = `<div id="modal-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">คุณไม่มีเมล็ดพันธุ์เลย ไปซื้อที่ร้านค้าก่อนนะ</div>`;
     let autoModalSeedHTML = `<div id="auto-modal-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">คุณยังไม่มีเมล็ดพิเศษสักอันเลย ไปที่โรงแปรรูปเพื่อสร้างมันขึ้นมานะ</div>`;
     let autoModalToolHTML = `<div id="auto-tool-modal-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">คุณยังไม่มีอุปกรณ์พิเศษสักอันเลย ไปที่โรงแปรรูปเพื่อสร้างมันขึ้นมานะ</div>`;
+
+    Object.keys(fishingToolsData).forEach(k => {
+        const t = fishingToolsData[k];
+        shopFishingToolHTML += `
+        <button type="button" id="buy-ftool-${k}" class="canva-card seed-card w-full rounded-2xl p-3 flex flex-col items-center justify-between text-center gap-1 border border-gray-100 bg-blue-50 shadow-sm"> 
+         <span class="text-4xl mb-1" aria-hidden="true">${t.emoji}</span> 
+         <div class="w-full"> 
+          <span class="block font-bold text-sm leading-tight text-blue-900">${t.name}</span> 
+          <span class="block text-xs mt-1 text-gray-600">ราคา: <span class="font-bold text-blue-700">${t.price}฿</span></span> 
+          <span class="inline-block text-[10px] mt-1 font-bold text-blue-700 bg-white px-2 py-0.5 rounded-full border border-blue-200">เหลือ: <span id="shop-ftool-${k}-stock">0</span></span>
+         </div> 
+         <span id="buy-ftool-btn-${k}" class="rounded-xl w-full py-2 mt-2 text-xs font-bold whitespace-nowrap bg-blue-500 text-white transition-colors">ซื้อ</span> 
+        </button>`;
+
+        bagHTML += `
+        <div id="bag-ftool-item-${k}" class="hidden rounded-xl border-2 border-blue-100 bg-white px-2 py-3 flex flex-col items-center shadow-sm"> 
+         <span class="block text-3xl mb-1" aria-hidden="true">${t.emoji}</span> 
+         <span id="ftool-${k}-count" class="mt-1 block text-base font-bold text-blue-800">0</span> 
+        </div>`;
+    });
 
     Object.keys(toolsData).forEach(k => {
         const t = toolsData[k];
@@ -739,6 +850,16 @@
             <span class="block text-4xl mb-2" aria-hidden="true">${t.emoji}</span> 
             <span class="block text-xs text-[#0f766e] font-bold">พิเศษ${t.name}</span>
             <span class="mt-1 block text-sm font-bold text-[#0f766e]">มี: <span id="auto-modal-tool-count-${k}">0</span></span>
+        </button>`;
+    });
+
+    Object.keys(fishesData).forEach(k => {
+        const f = fishesData[k];
+        fishHTML += `
+        <button type="button" id="sell-fish-${k}" class="hidden inventory-option rounded-xl border-2 border-blue-200 bg-white px-1 py-3 transition-colors flex flex-col items-center shadow-sm hover:-translate-y-1"> 
+         <span class="block text-3xl mb-1" aria-hidden="true">${f.emoji}</span> 
+         <span class="mt-1 block text-xs text-gray-500">มี: <span id="fish-${k}-count" class="font-bold text-gray-800">0</span></span>
+         <span class="mt-2 block text-xs font-bold text-blue-700 bg-blue-100 px-2 py-1 rounded-full w-full max-w-[80px]">+${f.sell}฿</span> 
         </button>`;
     });
     
@@ -833,16 +954,17 @@
     
     shopList.innerHTML = shopHTML;
     shopToolList.innerHTML = shopToolHTML;
+    shopFishingToolList.innerHTML = shopFishingToolHTML;
     bagList.innerHTML = bagHTML;
     specialBagList.innerHTML = specialBagHTML;
     storageList.innerHTML = storageHTML;
+    fishList.innerHTML = fishHTML;
     specialSeedList.innerHTML = specialSeedCraftHTML;
     document.getElementById("special-tool-list").innerHTML = specialToolCraftHTML;
     modalSeedList.innerHTML = modalSeedHTML;
     autoModalSeedList.innerHTML = autoModalSeedHTML;
     autoModalToolList.innerHTML = autoModalToolHTML;
 
-    // สำหรับสูตรอาหาร
     let recipeHTML = '';
     let craftedHTML = `<div id="crafted-empty" class="col-span-full py-8 text-center text-gray-400 text-sm font-medium border-2 border-dashed border-gray-100 rounded-xl">ยังไม่มีสินค้าแปรรูปเลย</div>`;
 
@@ -879,7 +1001,7 @@
     recipeList.innerHTML = recipeHTML;
     craftedList.innerHTML = craftedHTML;
 
-    // ================= ระบบเชื่อมปุ่มต่างๆ =================
+    // ================= ระบบเชื่อมปุ่มและสร้าง UI อื่นๆ =================
     Object.keys(crops).forEach(type => {
       document.getElementById("buy-" + type).addEventListener("click", () => buySeed(type));
       document.getElementById("sell-" + type).addEventListener("click", () => sellCrop(type));
@@ -894,6 +1016,14 @@
       document.getElementById("buy-tool-" + k).addEventListener("click", () => buyTool(k));
       document.getElementById(`craft-special-tool-btn-${k}`).addEventListener("click", () => craftSpecialTool(k));
       document.getElementById(`auto-modal-tool-${k}`).addEventListener('click', () => confirmAutoResource(k));
+    });
+
+    Object.keys(fishingToolsData).forEach(k => {
+      document.getElementById("buy-ftool-" + k).addEventListener("click", () => buyFishingTool(k));
+    });
+
+    Object.keys(fishesData).forEach(k => {
+      document.getElementById("sell-fish-" + k).addEventListener("click", () => sellFish(k));
     });
     
     Object.keys(resourceData).forEach(k => {
@@ -941,6 +1071,10 @@
       Object.keys(toolsData).forEach(k => {
           shopToolStock[k] = Math.floor(Math.random() * 3) + 2; 
       });
+      
+      shopFishingToolStock.fishing_rod = Math.floor(Math.random() * 5) + 2; 
+      shopFishingToolStock.fish_bait = Math.floor(Math.random() * 10) + 5; 
+
       nextShopRefresh = Date.now() + 3 * 60 * 1000;
       updateUI();
       saveGame();
@@ -953,11 +1087,52 @@
       let hasStorage = false;
       let hasSpecialBag = false;
       let hasCrafted = false;
+      let hasFish = false;
       let hasModal = false;
       let hasAutoModal = false;
       let hasAutoToolModal = false;
+
+      document.getElementById("fish-rod-count").textContent = inventoryFishingTools.fishing_rod;
+      document.getElementById("fish-bait-count").textContent = inventoryFishingTools.fish_bait;
+
+      Object.keys(fishingToolsData).forEach(k => {
+          const count = inventoryFishingTools[k];
+          document.getElementById(`shop-ftool-${k}-stock`).textContent = shopFishingToolStock[k];
+          const buyBtn = document.getElementById(`buy-ftool-${k}`);
+          const btnVisual = document.getElementById(`buy-ftool-btn-${k}`);
+          
+          const canBuy = money >= fishingToolsData[k].price && shopFishingToolStock[k] > 0;
+          buyBtn.disabled = !canBuy;
+          if(canBuy) {
+              btnVisual.classList.remove("opacity-50", "bg-gray-200", "text-gray-500");
+              btnVisual.classList.add("bg-blue-500", "text-white");
+          } else {
+              btnVisual.classList.add("opacity-50", "bg-gray-200", "text-gray-500");
+              btnVisual.classList.remove("bg-blue-500", "text-white");
+          }
+          
+          const bagItem = document.getElementById(`bag-ftool-item-${k}`);
+          if(count > 0) {
+              if(bagItem) bagItem.classList.remove("hidden");
+              document.getElementById(`ftool-${k}-count`).textContent = count;
+              hasBag = true;
+          } else {
+              if(bagItem) bagItem.classList.add("hidden");
+          }
+      });
+
+      Object.keys(fishesData).forEach(k => {
+          const fCount = inventoryFishes[k];
+          const sellBtn = document.getElementById(`sell-fish-${k}`);
+          if(fCount > 0) {
+              if(sellBtn) sellBtn.classList.remove("hidden");
+              document.getElementById(`fish-${k}-count`).textContent = fCount;
+              hasFish = true;
+          } else {
+              if(sellBtn) sellBtn.classList.add("hidden");
+          }
+      });
       
-      // อัปเดตร้านค้าและกระเป๋าเครื่องมือ
       Object.keys(toolsData).forEach(k => {
           document.getElementById(`shop-tool-${k}-stock`).textContent = shopToolStock[k];
           const buyBtn = document.getElementById(`buy-tool-${k}`);
@@ -998,7 +1173,6 @@
               if(autoToolBtn) autoToolBtn.classList.add("hidden");
           }
 
-          // ปุ่มคราฟเครื่องมือพิเศษ
           const specialCraftBtn = document.getElementById(`craft-special-tool-btn-${k}`);
           if(specialCraftBtn) {
               const canCraftSpecial = tCount >= 100;
@@ -1011,10 +1185,8 @@
                   specialCraftBtn.classList.remove("bg-[#0f766e]", "text-white");
               }
           }
-          
       });
       
-      // อัปเดตปุ่มกดขุดในหน้าป่า ให้สีเทาถ้าของไม่พอ
       Object.keys(resourceData).forEach(k => {
           let toolReq = "";
           if(k === 'wood') toolReq = 'axe';
@@ -1043,7 +1215,6 @@
       });
 
       Object.keys(crops).forEach(type => {
-        // ร้านค้า
         document.getElementById("shop-" + type + "-stock").textContent = shopStock[type];
         const buyButton = document.getElementById("buy-" + type);
         const buyBtnVisual = document.getElementById("buy-btn-" + type);
@@ -1059,7 +1230,6 @@
             buyBtnVisual.classList.remove("bg-green-100", "text-green-800");
         }
         
-        // กระเป๋าและ Modal เลือกเมล็ดปกติ
         const count = inventory[type];
         const bagItem = document.getElementById("bag-item-" + type);
         const modalBtn = document.getElementById(`modal-plant-${type}`);
@@ -1075,7 +1245,6 @@
             if(modalBtn) modalBtn.classList.add("hidden");
         }
         
-        // กระเป๋าพิเศษและ Modal ออโต้
         const specialCount = specialInventory[type];
         const specialBagItem = document.getElementById("special-bag-item-" + type);
         const autoModalBtn = document.getElementById(`auto-modal-plant-${type}`);
@@ -1091,7 +1260,6 @@
             if(autoModalBtn) autoModalBtn.classList.add("hidden");
         }
 
-        // โกดังดิบ (ปกติ, สีทอง, สีรุ้ง)
         const harvestCount = harvested[type];
         const sellButton = document.getElementById("sell-" + type);
         if(harvestCount > 0) {
@@ -1122,7 +1290,6 @@
             if(rBtn) rBtn.classList.add("hidden");
         }
 
-        // อัปเดตปุ่มคราฟเมล็ดพิเศษ
         const specialCraftBtn = document.getElementById(`craft-special-btn-${type}`);
         if(specialCraftBtn) {
             const canCraftSpecial = count >= 100;
@@ -1177,6 +1344,7 @@
 
       document.getElementById("bag-empty").style.display = hasBag ? "none" : "block";
       document.getElementById("storage-empty").style.display = hasStorage ? "none" : "block";
+      document.getElementById("fish-empty").style.display = hasFish ? "none" : "block";
       document.getElementById("special-bag-empty").style.display = hasSpecialBag ? "none" : "block";
       document.getElementById("crafted-empty").style.display = hasCrafted ? "none" : "block";
       
@@ -1326,6 +1494,16 @@
       updateUI();
       saveGame();
     }
+
+    function buyFishingTool(type) {
+      const tool = fishingToolsData[type];
+      if (shopFishingToolStock[type] <= 0 || money < tool.price) return;
+      money -= tool.price;
+      shopFishingToolStock[type] -= 1;
+      inventoryFishingTools[type] += 1;
+      updateUI();
+      saveGame();
+    }
     
     function gatherResource(resType) {
         let toolReq = "";
@@ -1341,11 +1519,62 @@
             saveGame();
         }
     }
+
+    function showFishingMessage(msg, isError = false) {
+        const msgEl = document.getElementById("fishing-msg");
+        if (!msgEl) return;
+        msgEl.textContent = msg;
+        msgEl.className = `z-10 mt-4 text-lg font-bold min-h-[28px] transition-opacity duration-300 opacity-100 pointer-events-none text-center ${isError ? 'text-red-500' : 'text-blue-800 drop-shadow-sm'}`;
+
+        clearTimeout(fishingMsgTimeout);
+        fishingMsgTimeout = setTimeout(() => {
+            msgEl.classList.remove('opacity-100');
+            msgEl.classList.add('opacity-0');
+        }, 2000);
+    }
+
+    function catchFish() {
+        if (inventoryFishingTools.fishing_rod >= 1 && inventoryFishingTools.fish_bait >= 1) {
+            inventoryFishingTools.fishing_rod--;
+            inventoryFishingTools.fish_bait--;
+
+            let roll = Math.floor(Math.random() * 1000) + 1;
+            let currentWeight = 0;
+            let caughtFish = null;
+
+            for (let k in fishesData) {
+                currentWeight += fishesData[k].prob;
+                if (roll <= currentWeight) {
+                    caughtFish = k;
+                    break;
+                }
+            }
+
+            if (caughtFish) {
+                inventoryFishes[caughtFish]++;
+                showFishingMessage(`🎣 สำเร็จ! คุณตกได้ ${fishesData[caughtFish].emoji} ${fishesData[caughtFish].name}`);
+            }
+
+            updateUI();
+            saveGame();
+        } else {
+            showFishingMessage("❌ ขาดเบ็ดหรือเหยื่อตกปลา!", true);
+        }
+    }
     
     function sellResource(type) {
         if (inventoryResources[type] > 0) {
             inventoryResources[type] -= 1;
             money += resourceData[type].sell;
+            updateUI();
+            saveGame();
+        }
+    }
+
+    function sellFish(type) {
+        if (inventoryFishes[type] > 0) {
+            inventoryFishes[type] -= 1;
+            money += fishesData[type].sell;
             updateUI();
             saveGame();
         }
@@ -1408,7 +1637,10 @@
 
     function confirmAutoPlant(type) {
         if (specialInventory[type] < 1) return;
-        if (autoPlot.activeSeed) specialInventory[autoPlot.activeSeed] += 1;
+        
+        if (autoPlot.activeSeed) {
+            specialInventory[autoPlot.activeSeed] += 1;
+        }
         
         specialInventory[type] -= 1;
         autoPlot.activeSeed = type;
@@ -1581,7 +1813,6 @@
         }
       });
       
-      // Auto Plot Update
       if (autoPlot.unlocked && autoPlot.activeSeed) {
           let elapsed = now - autoPlot.lastUpdate;
           if (elapsed >= 10000) {
@@ -1613,7 +1844,6 @@
           }
       }
       
-      // Auto Resource Update
       if (autoResource.unlocked && autoResource.activeTool) {
           let elapsed = now - autoResource.lastUpdate;
           if (elapsed >= 10000) {
@@ -1682,6 +1912,7 @@
       inventoryTools = { axe: 0, pickaxe: 0, heavy_pickaxe: 0 };
       specialInventoryTools = { axe: 0, pickaxe: 0, heavy_pickaxe: 0 };
       inventoryResources = { wood: 0, stone: 0, iron: 0 };
+      inventoryFishingTools = { fishing_rod: 0, fish_bait: 0 };
 
       Object.keys(crops).forEach(k => {
           inventory[k] = 0;
@@ -1692,6 +1923,9 @@
       });
       Object.keys(recipes).forEach(k => {
           craftedItems[k] = 0;
+      });
+      Object.keys(fishesData).forEach(k => {
+          inventoryFishes[k] = 0;
       });
       
       randomizeShop();
@@ -1727,7 +1961,10 @@
         specialInventoryTools: specialInventoryTools,
         inventoryResources: inventoryResources,
         shopToolStock: shopToolStock,
-        autoResource: autoResource
+        autoResource: autoResource,
+        inventoryFishingTools: inventoryFishingTools,
+        shopFishingToolStock: shopFishingToolStock,
+        inventoryFishes: inventoryFishes
       };
       localStorage.setItem('tinyFarmSave', JSON.stringify(gameData));
     }
@@ -1745,6 +1982,13 @@
         inventoryResources = data.inventoryResources || { wood: 0, stone: 0, iron: 0 };
         shopToolStock = data.shopToolStock || { axe: 5, pickaxe: 5, heavy_pickaxe: 5 };
         autoResource = data.autoResource || { unlocked: false, activeTool: null, lastUpdate: 0 };
+
+        inventoryFishingTools = data.inventoryFishingTools || { fishing_rod: 0, fish_bait: 0 };
+        shopFishingToolStock = data.shopFishingToolStock || { fishing_rod: 5, fish_bait: 10 };
+        
+        Object.keys(fishesData).forEach(k => {
+            inventoryFishes[k] = data.inventoryFishes?.[k] || 0;
+        });
 
         Object.keys(crops).forEach(k => {
             inventory[k] = data.inventory?.[k] || 0;
@@ -1837,6 +2081,7 @@
     });
 
     loadGame(); 
+    showView('farm-view');
     updateUI();
     setInterval(gameLoop, 150);
 
